@@ -19,8 +19,8 @@ import java.util.Scanner;
  * @author Augusto
  */
 public class RegrasFuncionamento {
-    private int[][] matrizTerreno = new int[42][42];
-    private int[][] matrizElementos = new int[42][42];
+    private int[][] matrizTerreno = new int[42][42];//matriz que receberá os valores referentes à localização dos terrenos
+    private int[][] matrizElementos = new int[42][42];//posições de pokemons, centro e lojas.
     private int[][] posicaoAtual = new int[1][1];
     private int[] codPokemon = new int[150];
     // final garante que o valor nao sera modificado
