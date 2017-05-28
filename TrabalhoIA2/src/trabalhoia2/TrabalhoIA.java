@@ -15,8 +15,6 @@ public class TrabalhoIA {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Interface inter = new Interface(730, 1370); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
-        inter.geraInterface();
         
         RegrasFuncionamento regra = new RegrasFuncionamento();
         regra.zerarElementos();
@@ -26,6 +24,11 @@ public class TrabalhoIA {
         regra.sortearTreinador();
         regra.varrerMatrizParaSensores();
         regra.imprimirMatriz();
+        
+        regra.lerMatrizTerreno();
+        
+        Interface inter = new Interface(730, 1370); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
+        inter.geraInterface();
         
     }
     
