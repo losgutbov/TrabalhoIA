@@ -124,4 +124,39 @@ public class RegrasFuncionamento {
            }else{x--;}
        }          
     }
+    
+    public void adicionarEstimulo(int estimulo, int posiI, int posiJ){
+        if((posiI!=0)&&(matrizElementos[posiI-1][posiJ]==0)){
+            matrizElementos[posiI-1][posiJ] = estimulo;
+        }
+        if((posiI!=41)&&(matrizElementos[posiI+1][posiJ]==0)){
+            matrizElementos[posiI+1][posiJ] = estimulo;
+        }
+        if((posiJ!=0)&&(matrizElementos[posiI][posiJ-1]==0)){
+            matrizElementos[posiI][posiJ-1] = estimulo;
+        }
+        if((posiJ!=41)&&(matrizElementos[posiI][posiJ+1]==0)){
+            matrizElementos[posiI][posiJ+1] = estimulo;
+        }
+    }
+    
+    public void varrerMatrizParaSensores(){
+        for(int i = 0; i<matrizElementos.length; i++){
+            for(int j=0; j<matrizElementos.length; j++){
+                switch(matrizElementos[i][j]){
+                    case CENTRO:
+                        adicionarEstimulo(PERFUME, i, j);
+                        break;
+                    case LOJA:
+                        adicionarEstimulo(PROPAGANDA_BOLAS, i, j);
+                        break;
+                    case TREINADOR:
+                        adicionarEstimulo(DESAFIO, i, j);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }        
+    }
 }
