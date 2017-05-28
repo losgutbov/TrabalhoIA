@@ -80,11 +80,11 @@ public class Interface extends JFrame{
     public void geraInterface(){
         this.setSize(getLargura(), getAltura());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
-        this.setVisible(true);
-        this.setLayout(null);
         adicionarMapa();
         adicionaControles();
+        this.setLayout(null);
+        this.setVisible(true);
+     
     }
     
     private void adicionarMapa(){
