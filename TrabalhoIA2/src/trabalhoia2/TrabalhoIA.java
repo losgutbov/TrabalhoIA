@@ -20,7 +20,11 @@ public class TrabalhoIA {
         
         RegrasFuncionamento regra = new RegrasFuncionamento();
         regra.zerarElementos();
+        regra.sortearPokemon();
+        regra.sortearCentro();
+        regra.sortearLoja();
         regra.sortearTreinador();
+        regra.varrerMatrizParaSensores();
         regra.imprimirMatriz();
         
     }
