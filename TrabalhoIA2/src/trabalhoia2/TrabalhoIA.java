@@ -15,7 +15,7 @@ public class TrabalhoIA {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Interface inter = new Interface(730, 1370);
+        Interface inter = new Interface(730, 1370); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
         inter.geraInterface();
         
     }
