@@ -18,6 +18,11 @@ public class TrabalhoIA {
         Interface inter = new Interface(730, 1370); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
         inter.geraInterface();
         
+        RegrasFuncionamento regra = new RegrasFuncionamento();
+        regra.zerarElementos();
+        regra.sortearTreinador();
+        regra.imprimirMatriz();
+        
     }
     
 }
