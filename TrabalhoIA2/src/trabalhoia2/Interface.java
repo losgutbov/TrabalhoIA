@@ -65,7 +65,7 @@ public class Interface extends JFrame{
         defineTipos();
     }
     
-    private void defineTipos(){
+    private void defineTipos(){ //Carrega as imagens para os icones que serão usados nos labels
         tipoter[0] = new ImageIcon(getClass().getResource("imagens/grama.png"));
         tipoter[1] = new ImageIcon(getClass().getResource("imagens/agua.png"));
         tipoter[2] = new ImageIcon(getClass().getResource("imagens/montanha.png"));
@@ -87,7 +87,7 @@ public class Interface extends JFrame{
         adicionaControles();
     }
     
-    private void adicionarMapa(){
+    private void adicionarMapa(){//Cria o mapa do jogo e chama o gerador de terrenos
         
         mapa.setSize(getLargura()-780, getAltura()-60);
         //mapa.setSize(588, 672);
