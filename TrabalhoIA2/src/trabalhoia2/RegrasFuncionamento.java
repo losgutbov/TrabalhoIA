@@ -23,25 +23,52 @@ public class RegrasFuncionamento {
     final int LOJA = 153;
     final int TREINADOR = 154;
     
+
+    public RegrasFuncionamento() {
+    }
+
+    public int[][] getMatrizTerreno() {
+        return matrizTerreno;
+    }
+
+    public void setMatrizTerreno(int[][] matrizTerreno) {
+        this.matrizTerreno = matrizTerreno;
+    }
+
+    private int[][] getMatrizElementos() {
+        return matrizElementos;
+    }
+
+    private void setMatrizElementos(int[][] matrizElementos) {
+        this.matrizElementos = matrizElementos;
+    }
+
+    public int[][] getPosicaoAtual() {
+        return posicaoAtual;
+    }
+
+    public void setPosicaoAtual(int[][] posicaoAtual) {
+        this.posicaoAtual = posicaoAtual;
+    }
     
     public void zerarElementos(){
-         for(int i = 0; i < matrizElementos.length; i++){
-             for(int j=0; j < matrizElementos.length; j++){
-                 this.matrizElementos[i][j] = ZERO; 
-             }     
-         }          
+        for(int i = 0; i < matrizElementos.length; i++){
+            for(int j=0; j < matrizElementos.length; j++){
+                this.matrizElementos[i][j] = ZERO; 
+            }     
+        }          
     }
     
     public void imprimirMatriz(){ 
-         for(int i = 0; i < matrizElementos.length; i++){
-             for(int j=0; j < matrizElementos.length; j++){
-                 System.out.print(matrizElementos[i][j]+" "); 
-             }  
-             System.out.println(" ");
+        for(int i = 0; i < matrizElementos.length; i++){
+            for(int j=0; j < matrizElementos.length; j++){
+                System.out.print(matrizElementos[i][j]+" "); 
+            }  
+            System.out.println(" ");
          }          
     }
     
-public void sortearPokemon(){
+    public void sortearPokemon(){
        Random gerador = new Random();
        int rand = 0;
        ArrayList<Integer> pokemonsJaIntroduzidos = new ArrayList<>();
@@ -64,7 +91,7 @@ public void sortearPokemon(){
 
     public void sortearCentro(){   
         Random gerador = new Random();
-
+        
          for(int x = 0; x<20; x++){
            int i = gerador.nextInt(matrizElementos.length);
            int j = gerador.nextInt(matrizElementos.length);
@@ -97,39 +124,4 @@ public void sortearPokemon(){
            }else{x--;}
        }          
     }
-    
-   
-      
-        
-       
-    
-    
-    public RegrasFuncionamento() {
-    }
-
-    public int[][] getMatrizTerreno() {
-        return matrizTerreno;
-    }
-
-    public void setMatrizTerreno(int[][] matrizTerreno) {
-        this.matrizTerreno = matrizTerreno;
-    }
-
-    private int[][] getMatrizElementos() {
-        return matrizElementos;
-    }
-
-    private void setMatrizElementos(int[][] matrizElementos) {
-        this.matrizElementos = matrizElementos;
-    }
-
-    public int[][] getPosicaoAtual() {
-        return posicaoAtual;
-    }
-
-    public void setPosicaoAtual(int[][] posicaoAtual) {
-        this.posicaoAtual = posicaoAtual;
-    }
-    
-    
 }
