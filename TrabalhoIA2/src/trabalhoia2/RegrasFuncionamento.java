@@ -7,6 +7,12 @@ package trabalhoia2;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
 
 /**
  *
@@ -158,5 +164,26 @@ public class RegrasFuncionamento {
                 }
             }
         }        
+    }
+    
+    //método para ler arquivo txt para preencher a matriz com os terrenos especificos
+    public void lerMatrizTerreno() throws FileNotFoundException, IOException{
+        Scanner lerTxt =  new Scanner(new FileReader("C:\\Users\\Note-CAJ\\Desktop\\matrizTerrenos.txt"))
+                     .useDelimiter("\\n");
+        while (lerTxt.hasNextInt()) {
+            for(int i=0; i<42;i++){
+                for(int j=0; j<42; j++){
+                  int x = lerTxt.nextInt();
+                  this.matrizTerreno[i][j] = x;
+                }                        
+            } 
+        }
+             for(int i=0; i<42;i++){
+                for(int j=0; j<42; j++){
+                  System.out.print(this.matrizTerreno[i][j]);
+                  
+                }                        
+                System.out.println(" ");
+            }        
     }
 }
