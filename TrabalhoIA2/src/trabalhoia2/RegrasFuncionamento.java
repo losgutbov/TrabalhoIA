@@ -146,44 +146,53 @@ public class RegrasFuncionamento {
         }
     }
     
-    public void varrerMatrizParaSensores(){
-        for(int i = 0; i<matrizElementos.length; i++){
-            for(int j=0; j<matrizElementos.length; j++){
-                switch(matrizElementos[i][j]){
-                    case CENTRO:
-                        adicionarEstimulo(PERFUME, i, j);
-                        break;
-                    case LOJA:
-                        adicionarEstimulo(PROPAGANDA_BOLAS, i, j);
-                        break;
-                    case TREINADOR:
-                        adicionarEstimulo(DESAFIO, i, j);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }        
-    }
-    
+//    public void varrerMatrizParaSensores(){
+//        for(int i = 0; i<matrizElementos.length; i++){
+//            for(int j=0; j<matrizElementos.length; j++){
+//                switch(matrizElementos[i][j]){
+//                    case CENTRO:
+//                        adicionarEstimulo(PERFUME, i, j);
+//                        break;
+//                    case LOJA:
+//                        adicionarEstimulo(PROPAGANDA_BOLAS, i, j);
+//                        break;
+//                    case TREINADOR:
+//                        adicionarEstimulo(DESAFIO, i, j);
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        }        
+//    }
+//    
     //método para ler arquivo txt para preencher a matriz com os terrenos especificos
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
-        Scanner lerTxt =  new Scanner(new FileReader("C:\\Users\\Note-CAJ\\Desktop\\matrizTerrenos.txt"))
-                     .useDelimiter("\\n");
-        while (lerTxt.hasNextInt()) {
-            for(int i=0; i<42;i++){
-                for(int j=0; j<42; j++){
-                  int x = lerTxt.nextInt();
-                  this.matrizTerreno[i][j] = x;
-                }                        
-            } 
+        
+     
+        FileReader txtMatriz = new FileReader("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt");
+        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\\n");
+        int [][] matriz = null;
+        int x;
+        try {
+            while(lerTxt.hasNextInt()){            
+                for (int i=0; i<43;i++){
+                   for(int j=0; j<43; j++){
+                    x = lerTxt.nextInt(); 
+                       matriz[i][j] = x;
+                   }            
+                }            
+            }                        
+        }catch(Exception IOException){
+            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
         }
-             for(int i=0; i<42;i++){
-                for(int j=0; j<42; j++){
-                  System.out.print(this.matrizTerreno[i][j]);
-                  
-                }                        
-                System.out.println(" ");
-            }        
-    }
+       
+        for(int i=0; i<42;i++){
+            for(int j=0; j<42; j++){
+              System.out.print(matriz[i][j]);
+
+            }                        
+            System.out.println(" ");
+        }
+    }      
 }
