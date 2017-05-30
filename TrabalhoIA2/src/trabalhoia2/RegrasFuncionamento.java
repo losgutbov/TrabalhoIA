@@ -171,17 +171,16 @@ public class RegrasFuncionamento {
         
      
         FileReader txtMatriz = new FileReader("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt");
-        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\\n");
-        int [][] matriz = null;
-        int x;
-        try {
-            while(lerTxt.hasNextInt()){            
-                for (int i=0; i<43;i++){
-                   for(int j=0; j<43; j++){
-                    x = lerTxt.nextInt(); 
-                       matriz[i][j] = x;
-                   }            
-                }            
+        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\0, \n");
+        int cont=0;
+        try {                        
+            for (int i=0; i<42;i++){
+                while(lerTxt.hasNextInt()){
+                    for(int j=0; j<43; j++){
+                       int x = lerTxt.nextInt(); 
+                        this.matrizTerreno[i][j] = x;
+                    }            
+                } cont++;          
             }                        
         }catch(Exception IOException){
             System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
@@ -189,7 +188,7 @@ public class RegrasFuncionamento {
        
         for(int i=0; i<42;i++){
             for(int j=0; j<42; j++){
-              System.out.print(matriz[i][j]);
+              System.out.print(matrizTerreno[i][j]);
 
             }                        
             System.out.println(" ");
