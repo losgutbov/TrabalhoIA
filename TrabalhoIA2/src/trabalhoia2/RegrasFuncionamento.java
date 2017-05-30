@@ -175,12 +175,14 @@ public class RegrasFuncionamento {
         int cont=0;
         try {                        
             for (int i=0; i<42;i++){
+                int j =0;
                 while(lerTxt.hasNextInt()){
-                    for(int j=0; j<43; j++){
-                       int x = lerTxt.nextInt(); 
-                        this.matrizTerreno[i][j] = x;
-                    }            
-                } cont++;          
+                    int x = lerTxt.nextInt(); 
+                    this.matrizTerreno[i][j] = x;
+                    System.out.print(matrizTerreno[i][j]);
+                    j++;
+                }
+                System.out.println(" ");
             }                        
         }catch(Exception IOException){
             System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
