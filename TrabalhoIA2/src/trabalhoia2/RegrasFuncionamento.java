@@ -171,29 +171,29 @@ public class RegrasFuncionamento {
         
      
         FileReader txtMatriz = new FileReader("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt");
-        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\0, \n");
-        int cont=0;
+        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter(" \\n");
+       
         try {                        
             for (int i=0; i<42;i++){
                 int j =0;
-                while(lerTxt.hasNextInt()){
-                    int x = lerTxt.nextInt(); 
-                    this.matrizTerreno[i][j] = x;
-                    System.out.print(matrizTerreno[i][j]);
+                while(lerTxt.hasNext()){
+                    String x = lerTxt.next(); 
+                    this.matrizTerreno[i][j] = Integer.parseInt(x);
+                    System.out.print(x);
                     j++;
                 }
                 System.out.println(" ");
             }                        
         }catch(Exception IOException){
-            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
+            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException);
         }
        
-        for(int i=0; i<42;i++){
-            for(int j=0; j<42; j++){
-              System.out.print(matrizTerreno[i][j]);
-
-            }                        
-            System.out.println(" ");
-        }
+//        for(int i=0; i<42;i++){
+//            for(int j=0; j<42; j++){
+//              System.out.print(matrizTerreno[i][j]);
+//
+//            }                        
+//            System.out.println(" ");
+//        }
     }      
 }
