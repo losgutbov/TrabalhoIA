@@ -170,17 +170,23 @@ public class RegrasFuncionamento {
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
         
      
-        FileReader txtMatriz = new FileReader("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt");
-        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter(" \\n");
-       
-        try {                        
+//        FileReader txtMatriz = new FileReader("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt");
+        Scanner lerTxt =  new Scanner("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt")
+                .useDelimiter("\r\n");
+        String nome = lerTxt.nextLine();
+        
+        try {          
+            FileReader arq = new FileReader(nome);
+            BufferedReader lerArq = new BufferedReader(arq);
+            String linha = lerArq.readLine(); 
+            
             for (int i=0; i<42;i++){
                 int j =0;
-                while(lerTxt.hasNext()){
-                    String x = lerTxt.next(); 
-                    this.matrizTerreno[i][j] = Integer.parseInt(x);
-                    System.out.print(x);
-                    j++;
+                while(linha != null){
+//                    this.matrizTerreno[i][j] = Integer.parseInt(linha);
+                    System.out.print(linha);
+                    linha = lerArq.readLine();
+                    j++;                    
                 }
                 System.out.println(" ");
             }                        
