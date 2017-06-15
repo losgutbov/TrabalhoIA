@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package trabalhoia2;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -21,13 +15,17 @@ import java.util.Scanner;
 public class RegrasFuncionamento {
     private int[][] matrizTerreno = new int[42][42];//matriz que receberá os valores referentes à localização dos terrenos
     private int[][] matrizElementos = new int[42][42];//posições de pokemons, centro e lojas.
-    private int[][] posicaoAtual = new int[1][1];
+    private int[] posicaoAtual = new int[2];
     private int[] codPokemon = new int[150];
     // final garante que o valor nao sera modificado
     final int ZERO = 0;
     final int CENTRO = 152;
     final int LOJA = 153;
     final int TREINADOR = 154;
+
+    final int PERFUME = 155;    
+    final int PROPAGANDA_BOLAS = 156;
+    final int DESAFIO = 157;
     
 
     public RegrasFuncionamento() {
@@ -49,11 +47,11 @@ public class RegrasFuncionamento {
         this.matrizElementos = matrizElementos;
     }
 
-    public int[][] getPosicaoAtual() {
+    public int[] getPosicaoAtual() {
         return posicaoAtual;
     }
 
-    public void setPosicaoAtual(int[][] posicaoAtual) {
+    public void setPosicaoAtual(int[] posicaoAtual) {
         this.posicaoAtual = posicaoAtual;
     }
     
@@ -74,7 +72,7 @@ public class RegrasFuncionamento {
          }          
     }
     
-    public void sortearPokemon(){
+    private void sortearPokemon(){
        Random gerador = new Random();
        int rand = 0;
        ArrayList<Integer> pokemonsJaIntroduzidos = new ArrayList<>();
@@ -95,7 +93,7 @@ public class RegrasFuncionamento {
        }
    }
 
-    public void sortearCentro(){   
+    private void sortearCentro(){   
         Random gerador = new Random();
         
          for(int x = 0; x<20; x++){
@@ -107,7 +105,7 @@ public class RegrasFuncionamento {
        }          
     }
     
-    public void sortearLoja(){   
+    private void sortearLoja(){   
         Random gerador = new Random();
 
          for(int x = 0; x<15; x++){
@@ -119,7 +117,7 @@ public class RegrasFuncionamento {
        }          
     }
     
-    public void sortearTreinador(){   
+    private void sortearTreinador(){   
         Random gerador = new Random();
 
          for(int x = 0; x<50; x++){
@@ -130,8 +128,8 @@ public class RegrasFuncionamento {
            }else{x--;}
        }          
     }
-    
-    public void adicionarEstimulo(int estimulo, int posiI, int posiJ){
+
+    private void adicionarEstimulo(int estimulo, int posiI, int posiJ){
         if((posiI!=0)&&(matrizElementos[posiI-1][posiJ]==0)){
             matrizElementos[posiI-1][posiJ] = estimulo;
         }
@@ -146,60 +144,52 @@ public class RegrasFuncionamento {
         }
     }
     
-//    public void varrerMatrizParaSensores(){
-//        for(int i = 0; i<matrizElementos.length; i++){
-//            for(int j=0; j<matrizElementos.length; j++){
-//                switch(matrizElementos[i][j]){
-//                    case CENTRO:
-//                        adicionarEstimulo(PERFUME, i, j);
-//                        break;
-//                    case LOJA:
-//                        adicionarEstimulo(PROPAGANDA_BOLAS, i, j);
-//                        break;
-//                    case TREINADOR:
-//                        adicionarEstimulo(DESAFIO, i, j);
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//        }        
-//    }
-//    
+    private void varrerMatrizParaSensores(){
+        for(int i = 0; i<matrizElementos.length; i++){
+            for(int j=0; j<matrizElementos.length; j++){
+                switch(matrizElementos[i][j]){
+                    case CENTRO:
+                        adicionarEstimulo(PERFUME, i, j);
+                        break;
+                    case LOJA:
+                        adicionarEstimulo(PROPAGANDA_BOLAS, i, j);
+                        break;
+                    case TREINADOR:
+                        adicionarEstimulo(DESAFIO, i, j);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }        
+    }
+    
+    public void sortearTudo(){
+        this.zerarElementos();
+        this.sortearPokemon();
+        this.sortearCentro();
+        this.sortearLoja();
+        this.sortearTreinador();
+        this.varrerMatrizParaSensores();
+    }
+    
     //método para ler arquivo txt para preencher a matriz com os terrenos especificos
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
         
-     
-//        FileReader txtMatriz = new FileReader("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt");
-        Scanner lerTxt =  new Scanner("C:\\Users\\stephanie\\Desktop\\matrizTerrenos.txt")
-                .useDelimiter("\r\n");
-        String nome = lerTxt.nextLine();
-        
-        try {          
-            FileReader arq = new FileReader(nome);
-            BufferedReader lerArq = new BufferedReader(arq);
-            String linha = lerArq.readLine(); 
-            
-            for (int i=0; i<42;i++){
-                int j =0;
-                while(linha != null){
-//                    this.matrizTerreno[i][j] = Integer.parseInt(linha);
-                    System.out.print(linha);
-                    linha = lerArq.readLine();
-                    j++;                    
+        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Desktop\\matrizTerrenos.txt");
+        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
+        int cont=0, i=0;
+        try{                        
+            while(lerTxt.hasNext()){
+                String[] a1 = lerTxt.next().split(" ");
+                for(int j=0; j<42; j++){
+                    this.matrizTerreno[i][j] = Integer.parseInt(a1[j]);
                 }
-                System.out.println(" ");
-            }                        
+                i++;
+            }                           
         }catch(Exception IOException){
-            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException);
+            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
         }
-       
-//        for(int i=0; i<42;i++){
-//            for(int j=0; j<42; j++){
-//              System.out.print(matrizTerreno[i][j]);
-//
-//            }                        
-//            System.out.println(" ");
-//        }
     }      
 }
+
