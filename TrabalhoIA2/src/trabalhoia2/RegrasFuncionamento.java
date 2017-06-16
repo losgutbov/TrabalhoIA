@@ -17,6 +17,8 @@ public class RegrasFuncionamento {
     private int[][] matrizElementos = new int[42][42];//posições de pokemons, centro e lojas.
     private int[] posicaoAtual = new int[2];
     private int[] codPokemon = new int[150];
+    private int sentido;
+    private int pontuacao;
     // final garante que o valor nao sera modificado
     final int ZERO = 0;
     final int CENTRO = 152;
@@ -28,6 +30,20 @@ public class RegrasFuncionamento {
     final int DESAFIO = 157;
     
     final int AGENTE = 200;
+    
+    final int CIMA = 0;
+    final int DIREITA = 1;
+    final int BAIXO = 2;
+    final int ESQUERDA = 3;
+    
+    final int MVFRENTE = -1;
+    final int MVDIREITA = -1;
+    final int MVESQUERDA = -1;
+    final int USAPOKEBOLA = -5;
+    final int PEGAPOKEBOLA = -10;
+    final int RECPOKEMON = -100;
+    final int GANHARBATALHA = 150;
+    final int PERDERBATALHA = -1000;    
     
     public RegrasFuncionamento() {
     }
@@ -60,6 +76,61 @@ public class RegrasFuncionamento {
         this.posicaoAtual[0] = posicaoI;
         this.posicaoAtual[1] = posicaoJ;
     }
+
+    public int getSentido() {
+        return sentido;
+    }
+
+    public void setSentido(int sentido) {
+        this.sentido = sentido;
+        if(this.sentido<0){this.sentido =ESQUERDA;}
+        if(this.sentido>3){this.sentido =CIMA;}
+    }
+
+    public int getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(int pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+    
+    public void adicionarCustoPontuacao(int acao){
+        this.setPontuacao(this.getPontuacao()+acao);
+    }
+    
+    public int[] determinarMovimento(){
+        int[] coordenadasNovas = new int[2];
+        coordenadasNovas[0]=this.getPosicaoAtual()[0];
+        coordenadasNovas[1]=this.getPosicaoAtual()[1];
+        switch(this.getSentido()){
+            case CIMA:
+                if(((coordenadasNovas[0])--)<0){
+                    coordenadasNovas[0]=-1;
+                    coordenadasNovas[1]=-1;
+                }                
+                break;
+            case DIREITA:
+                if(((coordenadasNovas[1])++)>41){
+                    coordenadasNovas[0]=-1;
+                    coordenadasNovas[1]=-1;
+                }                
+                break;
+            case BAIXO:
+                if(((coordenadasNovas[0])++)>41){
+                    coordenadasNovas[0]=-1;
+                    coordenadasNovas[1]=-1;
+                }
+                break;
+            case ESQUERDA:
+                if(((coordenadasNovas[1])--)<0){
+                    coordenadasNovas[0]=-1;
+                    coordenadasNovas[1]=-1;
+                }                
+                break;
+        }
+        return coordenadasNovas;
+    }
     
     public void zerarElementos(){
         for(int i = 0; i < matrizElementos.length; i++){
@@ -82,6 +153,7 @@ public class RegrasFuncionamento {
         //19 linhas 24 colunas
         this.matrizElementos[19][24]=AGENTE;
         this.setPosicaoAtual(19, 24);
+        this.setSentido(BAIXO);
     }
     
     private void sortearPokemon(){
@@ -207,3 +279,4 @@ public class RegrasFuncionamento {
 
     
 }
+
