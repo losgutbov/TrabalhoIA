@@ -160,7 +160,7 @@ public class Interface extends JFrame{
     
     private void adicionaControles(){
 
-        controles.setSize(300, 200);
+        controles.setSize(300, 100);
         controles.setLocation((mapa.getSize().width + 300), (mapa.getSize().height - 200));
         controles.setBackground(Color.yellow);
         controles.setLayout(null);
@@ -171,10 +171,41 @@ public class Interface extends JFrame{
         esquerda.setBounds(0, (controles.getSize().height)-100, 100, 100);
         esquerda.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(regras.getPosicaoAtual()[0], regras.getPosicaoAtual()[1]-1);
+                regras.setSentido(regras.getSentido()+1);
+                regras.adicionarCustoPontuacao(regras.MVESQUERDA);
+                pontos.setText(Integer.toString(regras.getPontuacao()));
+                //movimentar(regras.getPosicaoAtual()[0], regras.getPosicaoAtual()[1]-1);
             }
         });
         controles.add(esquerda);
+        ImageIcon dir = new ImageIcon(getClass().getResource("imagens/direita.PNG"));
+        direita = new JButton(dir);
+        direita.setBounds(200, (controles.getSize().height)-100, 100, 100);
+        direita.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                regras.setSentido(regras.getSentido()-1);
+                regras.adicionarCustoPontuacao(regras.MVDIREITA);
+                pontos.setText(Integer.toString(regras.getPontuacao()));
+                //movimentar(regras.getPosicaoAtual()[0], regras.getPosicaoAtual()[1]+1);
+            }
+        });
+        controles.add(direita);
+        ImageIcon avan = new ImageIcon(getClass().getResource("imagens/avanca.PNG"));
+        avanca = new JButton(avan);
+        avanca.setBounds(100, (controles.getSize().height)-100, 100, 100);
+        avanca.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                int[] coordenadasNovas = regras.determinarMovimento();
+                System.out.println(regras.getPosicaoAtual()[0]+" "+regras.getPosicaoAtual()[1]);
+                //movimentar(regras.getPosicaoAtual()[0]-1, regras.getPosicaoAtual()[1]);
+                if(movimentar(coordenadasNovas[0], coordenadasNovas[1])){
+                    regras.adicionarCustoPontuacao(regras.MVFRENTE);
+                    pontos.setText(Integer.toString(regras.getPontuacao()));
+                }
+            }
+        });
+        controles.add(avanca);
+        /*
         ImageIcon volt = new ImageIcon(getClass().getResource("imagens/volta.PNG"));
         volta = new JButton(volt);
         volta.setBounds(100, (controles.getSize().height)-100, 100, 100);
@@ -184,24 +215,7 @@ public class Interface extends JFrame{
             }
         });
         controles.add(volta);
-        ImageIcon dir = new ImageIcon(getClass().getResource("imagens/direita.PNG"));
-        direita = new JButton(dir);
-        direita.setBounds(200, (controles.getSize().height)-100, 100, 100);
-        direita.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(regras.getPosicaoAtual()[0], regras.getPosicaoAtual()[1]+1);
-            }
-        });
-        controles.add(direita);
-        ImageIcon avan = new ImageIcon(getClass().getResource("imagens/avanca.PNG"));
-        avanca = new JButton(avan);
-        avanca.setBounds(100, 0, 100, 100);
-        avanca.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(regras.getPosicaoAtual()[0]-1, regras.getPosicaoAtual()[1]);
-            }
-        });
-        controles.add(avanca);
+        */
     }
     
     private void adicionarPainelInfo(){//Cria o campo de informações sobre o que ocorre no jogo.
