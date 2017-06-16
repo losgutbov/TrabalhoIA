@@ -17,15 +17,12 @@ public class TrabalhoIA {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        
         RegrasFuncionamento regra = new RegrasFuncionamento();
         regra.lerMatrizTerreno();
         regra.sortearTudo();
-        regra.imprimirMatriz();
+        //regra.imprimirMatriz();
         
-        Interface inter = new Interface(730, 1370); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
-        inter.geraInterface(regra.getMatrizTerreno(), regra.getPosicaoAtual());
-        
+        Interface inter = new Interface(730, 1370, regra); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
+        inter.geraInterface();
     }
-    
 }
