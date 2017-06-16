@@ -27,7 +27,8 @@ public class RegrasFuncionamento {
     final int PROPAGANDA_BOLAS = 156;
     final int DESAFIO = 157;
     
-
+    final int AGENTE = 200;
+    
     public RegrasFuncionamento() {
     }
 
@@ -55,6 +56,11 @@ public class RegrasFuncionamento {
         this.posicaoAtual = posicaoAtual;
     }
     
+    public void setPosicaoAtual(int posicaoI, int posicaoJ) {
+        this.posicaoAtual[0] = posicaoI;
+        this.posicaoAtual[1] = posicaoJ;
+    }
+    
     public void zerarElementos(){
         for(int i = 0; i < matrizElementos.length; i++){
             for(int j=0; j < matrizElementos.length; j++){
@@ -70,6 +76,12 @@ public class RegrasFuncionamento {
             }  
             System.out.println(" ");
          }          
+    }
+    
+    private void iniciarAgente(){
+        //19 linhas 24 colunas
+        this.matrizElementos[19][24]=AGENTE;
+        this.setPosicaoAtual(19, 24);
     }
     
     private void sortearPokemon(){
@@ -166,6 +178,7 @@ public class RegrasFuncionamento {
     
     public void sortearTudo(){
         this.zerarElementos();
+        this.iniciarAgente();
         this.sortearPokemon();
         this.sortearCentro();
         this.sortearLoja();
@@ -191,5 +204,6 @@ public class RegrasFuncionamento {
             System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
         }
     }      
-}
 
+    
+}
