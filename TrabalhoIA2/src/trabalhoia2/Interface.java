@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -23,13 +22,13 @@ import javax.swing.JPanel;
 public class Interface extends JFrame{
     
     private JPanel mapa = new JPanel(), controles = new JPanel(), painelInfo = new JPanel();
-    private int altura, largura, posiX, posiY, avatLin, avatCol;
-    private int[][] matrizTer;
+    private int altura, largura, posiX, posiY;
     private ArrayList<JLabel> terrenos = new ArrayList<>();
     private ImageIcon[] tipoter = new ImageIcon[5]; 
     private ImageIcon[] tipoAvat = new ImageIcon[5]; 
     private JButton esquerda, direita, avanca, volta, lancaPokebola;
     private JLabel pontos = new JLabel();
+    private RegrasFuncionamento regras;
     
     //-------------------------MÉTODOS GET E SET---------------------------------//
     public int getAltura() {
@@ -64,20 +63,12 @@ public class Interface extends JFrame{
         this.posiY = posiY;
     }
 
-    public int getAvatLin() {
-        return avatLin;
+    public RegrasFuncionamento getRegras() {
+        return regras;
     }
 
-    public void setAvatLin(int avatLin) {
-        this.avatLin = avatLin;
-    }
-
-    public int getAvatCol() {
-        return avatCol;
-    }
-
-    public void setAvatCol(int avatCol) {
-        this.avatCol = avatCol;
+    public void setRegras(RegrasFuncionamento regras) {
+        this.regras = regras;
     }
     //-------------------------FIM MÉTODOS GET E SET---------------------------------//
     
@@ -85,30 +76,28 @@ public class Interface extends JFrame{
     private void adicionar(Component ob){
         this.add(ob);
     }
+    private void posicionarPersonagem(int i, int j){
+        int indexTerrenos = (i*42)+j;
+        this.terrenos.get(indexTerrenos).setIcon(tipoAvat[this.getRegras().getMatrizTerreno()[i][j]]);
+        regras.setPosicaoAtual(i, j);
+    }
 
-    
+    private boolean movimentar(int sentidoLin, int sentidoCol){
+        int lin = this.regras.getPosicaoAtual()[0], col = this.regras.getPosicaoAtual()[1];
+        int indexTerrenos = (lin*42)+col;
+        this.terrenos.get(indexTerrenos).setIcon(tipoter[this.getRegras().getMatrizTerreno()[lin][col]]);
+        posicionarPersonagem(sentidoLin, sentidoCol);
+        return true;
+    }
     //-----------------------FIM MÉTODOS GENÉRICOS-----------------------------------//
     
     //-------------------------MÉTODO CONSTRUTOR-------------------------------------//
-    public Interface(int altura, int largura){
+    public Interface(int altura, int largura, RegrasFuncionamento regra){
         setAltura(altura);
         setLargura(largura);
         defineTipos();
         defineAvatar();
-    }
-
-    private void posicionarPersonagem(int i, int j){
-        int indexTerrenos = (i*42)+j;
-        this.terrenos.get(indexTerrenos).setIcon(tipoAvat[matrizTer[i][j]]);
-        this.setAvatLin(i);
-        this.setAvatCol(j);
-    }
-
-    private boolean movimentar(int sentidoLin, int sentidoCol){
-        int indexTerrenos = (this.getAvatLin()*42)+this.getAvatCol();
-        this.terrenos.get(indexTerrenos).setIcon(tipoter[matrizTer[this.getAvatLin()][this.getAvatCol()]]);
-        posicionarPersonagem(sentidoLin, sentidoCol);
-        return true;
+        this.setRegras(regra);
     }    
     //-------------------------FIM MÉTODO CONSTRUTOR--------------------------------//
     
@@ -131,35 +120,34 @@ public class Interface extends JFrame{
     //--------------------FIM MÉTODOS DE DEFINIÇÃO DE ÍCONES----------------------------//
 
     //--------------------MÉTODOS DE ELEMENTOS GRÁFICOS----------------------------//    
-    public void geraInterface(int[][] matrizTerreno, int[]posicaoAtual){
-        this.matrizTer = matrizTerreno;
+    public void geraInterface(){
         this.setSize(getLargura(), getAltura());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        adicionarMapa(matrizTerreno);
+        adicionarMapa();
         adicionaControles();
-        posicionarPersonagem(posicaoAtual[0], posicaoAtual[1]);
+        posicionarPersonagem(this.regras.getPosicaoAtual()[0], this.regras.getPosicaoAtual()[1]);
         adicionarPainelInfo();
         this.setLayout(null);
         this.setVisible(true);     
     }
     
-    private void adicionarMapa(int[][] matrizTerreno){//Cria o mapa do jogo e chama o gerador de terrenos
+    private void adicionarMapa(){//Cria o mapa do jogo e chama o gerador de terrenos
         
         mapa.setSize(getLargura()-780, getAltura()-60);
         //mapa.setSize(588, 672);
         mapa.setLocation(getLargura()-(getLargura()-100), getAltura()-(getAltura()-15));
         mapa.setBackground(Color.black);
         mapa.setLayout(null);
-        geraTerrenos(mapa, 42, 42, matrizTerreno);
+        geraTerrenos(mapa, 42, 42);
         adicionar(mapa);
     }
     
-    private void geraTerrenos(JPanel painel, int lin, int col, int[][] matrizTerreno){
+    private void geraTerrenos(JPanel painel, int lin, int col){
         setPosiX(0);
         setPosiY(0);
         for(int i=0; i<lin; i++){
             for(int j=0; j<col; j++){
-                JLabel terreno = new JLabel(tipoter[matrizTerreno[i][j]]);
+                JLabel terreno = new JLabel(tipoter[this.getRegras().getMatrizTerreno()[i][j]]);
                 terreno.setBounds(getPosiX(), getPosiY(), 14, 16);
                 terrenos.add(terreno);
                 painel.add(terreno);
@@ -183,7 +171,7 @@ public class Interface extends JFrame{
         esquerda.setBounds(0, (controles.getSize().height)-100, 100, 100);
         esquerda.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(getAvatLin(), getAvatCol()-1);
+                movimentar(regras.getPosicaoAtual()[0], regras.getPosicaoAtual()[1]-1);
             }
         });
         controles.add(esquerda);
@@ -192,7 +180,7 @@ public class Interface extends JFrame{
         volta.setBounds(100, (controles.getSize().height)-100, 100, 100);
         volta.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(getAvatLin()+1, getAvatCol());
+                movimentar(regras.getPosicaoAtual()[0]+1, regras.getPosicaoAtual()[1]);
             }
         });
         controles.add(volta);
@@ -201,7 +189,7 @@ public class Interface extends JFrame{
         direita.setBounds(200, (controles.getSize().height)-100, 100, 100);
         direita.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(getAvatLin(), getAvatCol()+1);
+                movimentar(regras.getPosicaoAtual()[0], regras.getPosicaoAtual()[1]+1);
             }
         });
         controles.add(direita);
@@ -210,7 +198,7 @@ public class Interface extends JFrame{
         avanca.setBounds(100, 0, 100, 100);
         avanca.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(getAvatLin()-1, getAvatCol());
+                movimentar(regras.getPosicaoAtual()[0]-1, regras.getPosicaoAtual()[1]);
             }
         });
         controles.add(avanca);
