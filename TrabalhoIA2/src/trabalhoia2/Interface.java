@@ -7,12 +7,13 @@ package trabalhoia2;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.HeadlessException;
+import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -21,12 +22,16 @@ import javax.swing.JPanel;
  */
 public class Interface extends JFrame{
     
-    private JPanel mapa = new JPanel(), controles = new JPanel();
-    private int altura, largura, posiX, posiY;
+    private JPanel mapa = new JPanel(), controles = new JPanel(), painelInfo = new JPanel();
+    private int altura, largura, posiX, posiY, avatLin, avatCol;
+    private int[][] matrizTer;
     private ArrayList<JLabel> terrenos = new ArrayList<>();
     private ImageIcon[] tipoter = new ImageIcon[5]; 
+    private ImageIcon[] tipoAvat = new ImageIcon[5]; 
     private JButton esquerda, direita, avanca, volta, lancaPokebola;
+    private JLabel pontos = new JLabel();
     
+    //-------------------------MÉTODOS GET E SET---------------------------------//
     public int getAltura() {
         return altura;
     }
@@ -58,14 +63,57 @@ public class Interface extends JFrame{
     public void setPosiY(int posiY) {
         this.posiY = posiY;
     }
-            
+
+    public int getAvatLin() {
+        return avatLin;
+    }
+
+    public void setAvatLin(int avatLin) {
+        this.avatLin = avatLin;
+    }
+
+    public int getAvatCol() {
+        return avatCol;
+    }
+
+    public void setAvatCol(int avatCol) {
+        this.avatCol = avatCol;
+    }
+    //-------------------------FIM MÉTODOS GET E SET---------------------------------//
+    
+    //-------------------------MÉTODOS GENÉRICOS-------------------------------------//
+    private void adicionar(Component ob){
+        this.add(ob);
+    }
+
+    
+    //-----------------------FIM MÉTODOS GENÉRICOS-----------------------------------//
+    
+    //-------------------------MÉTODO CONSTRUTOR-------------------------------------//
     public Interface(int altura, int largura){
         setAltura(altura);
         setLargura(largura);
         defineTipos();
+        defineAvatar();
     }
+
+    private void posicionarPersonagem(int i, int j){
+        int indexTerrenos = (i*42)+j;
+        this.terrenos.get(indexTerrenos).setIcon(tipoAvat[matrizTer[i][j]]);
+        this.setAvatLin(i);
+        this.setAvatCol(j);
+    }
+
+    private boolean movimentar(int sentidoLin, int sentidoCol){
+        int indexTerrenos = (this.getAvatLin()*42)+this.getAvatCol();
+        this.terrenos.get(indexTerrenos).setIcon(tipoter[matrizTer[this.getAvatLin()][this.getAvatCol()]]);
+        posicionarPersonagem(sentidoLin, sentidoCol);
+        return true;
+    }    
+    //-------------------------FIM MÉTODO CONSTRUTOR--------------------------------//
     
-    private void defineTipos(){ //Carrega as imagens para os icones que serão usados nos labels
+    //--------------------MÉTODOS DE DEFINIÇÃO DE ÍCONES----------------------------//
+    private void defineTipos(){ //Carrega as imagens para os icones que serão usados nos labels;
         tipoter[0] = new ImageIcon(getClass().getResource("imagens/grama.png"));
         tipoter[1] = new ImageIcon(getClass().getResource("imagens/agua.png"));
         tipoter[2] = new ImageIcon(getClass().getResource("imagens/montanha.png"));
@@ -73,37 +121,45 @@ public class Interface extends JFrame{
         tipoter[4] = new ImageIcon(getClass().getResource("imagens/vulcao.png"));
     }
     
-    private void adicionar(Component ob){
-        this.add(ob);
+    private void defineAvatar(){ //Carrega as imagens para os icones que serão usados nos labels quando troca o avatar;
+        tipoAvat[0] = new ImageIcon(getClass().getResource("imagens/avatarGrama.png"));
+        tipoAvat[1] = new ImageIcon(getClass().getResource("imagens/avatarAgua.png"));
+        tipoAvat[2] = new ImageIcon(getClass().getResource("imagens/avatarMontanha.png"));
+        tipoAvat[3] = new ImageIcon(getClass().getResource("imagens/avatarCaverna.png"));
+        tipoAvat[4] = new ImageIcon(getClass().getResource("imagens/avatarVulcao.png"));
     }
-    
-    public void geraInterface(){
+    //--------------------FIM MÉTODOS DE DEFINIÇÃO DE ÍCONES----------------------------//
+
+    //--------------------MÉTODOS DE ELEMENTOS GRÁFICOS----------------------------//    
+    public void geraInterface(int[][] matrizTerreno, int[]posicaoAtual){
+        this.matrizTer = matrizTerreno;
         this.setSize(getLargura(), getAltura());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        adicionarMapa();
+        adicionarMapa(matrizTerreno);
         adicionaControles();
+        posicionarPersonagem(posicaoAtual[0], posicaoAtual[1]);
+        adicionarPainelInfo();
         this.setLayout(null);
-        this.setVisible(true);
-     
+        this.setVisible(true);     
     }
     
-    private void adicionarMapa(){//Cria o mapa do jogo e chama o gerador de terrenos
+    private void adicionarMapa(int[][] matrizTerreno){//Cria o mapa do jogo e chama o gerador de terrenos
         
         mapa.setSize(getLargura()-780, getAltura()-60);
         //mapa.setSize(588, 672);
         mapa.setLocation(getLargura()-(getLargura()-100), getAltura()-(getAltura()-15));
         mapa.setBackground(Color.black);
         mapa.setLayout(null);
-        geraTerrenos(mapa, 42, 42);
+        geraTerrenos(mapa, 42, 42, matrizTerreno);
         adicionar(mapa);
     }
     
-    private void geraTerrenos(JPanel painel, int lin, int col){
+    private void geraTerrenos(JPanel painel, int lin, int col, int[][] matrizTerreno){
         setPosiX(0);
         setPosiY(0);
         for(int i=0; i<lin; i++){
             for(int j=0; j<col; j++){
-                JLabel terreno = new JLabel(tipoter[0]);
+                JLabel terreno = new JLabel(tipoter[matrizTerreno[i][j]]);
                 terreno.setBounds(getPosiX(), getPosiY(), 14, 16);
                 terrenos.add(terreno);
                 painel.add(terreno);
@@ -125,19 +181,71 @@ public class Interface extends JFrame{
         ImageIcon esq = new ImageIcon(getClass().getResource("imagens/esquerda.PNG"));
         esquerda = new JButton(esq);
         esquerda.setBounds(0, (controles.getSize().height)-100, 100, 100);
+        esquerda.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                movimentar(getAvatLin(), getAvatCol()-1);
+            }
+        });
         controles.add(esquerda);
         ImageIcon volt = new ImageIcon(getClass().getResource("imagens/volta.PNG"));
         volta = new JButton(volt);
         volta.setBounds(100, (controles.getSize().height)-100, 100, 100);
+        volta.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                movimentar(getAvatLin()+1, getAvatCol());
+            }
+        });
         controles.add(volta);
         ImageIcon dir = new ImageIcon(getClass().getResource("imagens/direita.PNG"));
         direita = new JButton(dir);
         direita.setBounds(200, (controles.getSize().height)-100, 100, 100);
+        direita.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                movimentar(getAvatLin(), getAvatCol()+1);
+            }
+        });
         controles.add(direita);
         ImageIcon avan = new ImageIcon(getClass().getResource("imagens/avanca.PNG"));
         avanca = new JButton(avan);
         avanca.setBounds(100, 0, 100, 100);
+        avanca.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                movimentar(getAvatLin()-1, getAvatCol());
+            }
+        });
         controles.add(avanca);
-        
     }
+    
+    private void adicionarPainelInfo(){//Cria o campo de informações sobre o que ocorre no jogo.
+        JLabel tagPontos = new JLabel("Pontos: ");
+        JPanel painelAtual = new JPanel();
+        JPanel painelLog = new JPanel();
+        
+        painelInfo.setSize(600, 350);
+        painelInfo.setLocation(painelInfo.getSize().width + 125, painelInfo.getSize().height - 300);
+        painelInfo.setBackground(Color.white);
+        painelInfo.setLayout(null);
+        tagPontos.setBounds(25, 10, 120, 25);
+        tagPontos.setForeground(Color.red);
+        tagPontos.setFont(new Font("Dialog", Font.PLAIN, 30));
+        pontos.setText("0");
+        pontos.setBounds(130, 10, 120, 25);
+        pontos.setForeground(Color.red);
+        pontos.setFont(new Font("Dialog", Font.PLAIN, 30));
+        painelAtual.setSize(540, 150);
+        painelAtual.setLocation(25, 50);
+        painelAtual.setBackground(Color.black);
+        painelAtual.setLayout(null);
+        painelLog.setSize(540, 110);
+        painelLog.setLocation(25, 215);
+        painelLog.setBackground(Color.yellow);
+        painelLog.setLayout(null);
+        painelInfo.add(tagPontos);
+        painelInfo.add(pontos);
+        painelInfo.add(painelAtual);
+        painelInfo.add(painelLog);
+        adicionar(painelInfo);
+    }
+    //--------------------FIM MÉTODOS DE ELEMENTOS GRÁFICOS----------------------------//    
+    
 }
