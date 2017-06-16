@@ -24,7 +24,7 @@ public class TrabalhoIA {
         regra.imprimirMatriz();
         
         Interface inter = new Interface(730, 1370); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
-        inter.geraInterface(regra.getMatrizTerreno());
+        inter.geraInterface(regra.getMatrizTerreno(), regra.getPosicaoAtual());
         
     }
     
