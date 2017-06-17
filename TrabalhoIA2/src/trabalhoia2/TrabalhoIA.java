@@ -19,11 +19,11 @@ public class TrabalhoIA {
     public static void main(String[] args) throws IOException {
         RegrasFuncionamento regra = new RegrasFuncionamento();
        // regra.lerMatrizTerreno();
-        //regra.sortearTudo();
-        //regra.imprimirMatriz();
+      //  regra.sortearTudo();
+      //  regra.imprimirMatriz();
         regra.lerInformacoesPokemon();
         regra.imprimirListaPokemons();
-        regra.pesquisarElemntoListaPokemons(1);
+        regra.pesquisarElementoListaPokemons(1);
         regra.pokedexInformacao(2);
    
         
