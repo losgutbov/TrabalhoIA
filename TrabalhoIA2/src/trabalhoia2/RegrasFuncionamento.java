@@ -1,10 +1,15 @@
 package trabalhoia2;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,7 +24,12 @@ public class RegrasFuncionamento {
     private int[] codPokemon = new int[150];
     private int sentido;
     private int pontuacao;
-    // final garante que o valor nao sera modificado
+    private int identificadorPokemon;
+    private String nomePokemon,descricaoPokemon, tipoPokemon, habilidadePokemon; 
+    private ArrayList<Pokemon> listaPokemons = new ArrayList<Pokemon>();
+    private Pokemon pokemon = new Pokemon();
+
+// final garante que o valor nao sera modificado
     final int ZERO = 0;
     final int CENTRO = 152;
     final int LOJA = 153;
@@ -44,7 +54,7 @@ public class RegrasFuncionamento {
     final int RECPOKEMON = -100;
     final int GANHARBATALHA = 150;
     final int PERDERBATALHA = -1000;    
-    
+        
     public RegrasFuncionamento() {
     }
 
@@ -93,6 +103,14 @@ public class RegrasFuncionamento {
 
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
+    }
+       
+    public ArrayList<Pokemon> getListaPokemons() {
+        return listaPokemons;
+    }
+
+    public void setLista(ArrayList<Pokemon> listaPokemons) {
+        this.listaPokemons = listaPokemons;
     }
     
     public void adicionarCustoPontuacao(int acao){
@@ -261,7 +279,7 @@ public class RegrasFuncionamento {
     //método para ler arquivo txt para preencher a matriz com os terrenos especificos
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
         
-        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Desktop\\matrizTerrenos.txt");
+        FileReader txtMatriz = new FileReader("C:\\Users\\Thamires\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\arquivos\\matrizTerrenos.txt");
         Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
         int cont=0, i=0;
         try{                        
@@ -275,8 +293,50 @@ public class RegrasFuncionamento {
         }catch(Exception IOException){
             System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
         }
-    }      
-
+    }
     
+    public void lerInformacoesPokemon()throws FileNotFoundException, IOException{
+        Scanner scanner = new Scanner(new FileReader("C:\\Users\\Thamires\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
+       
+        while (scanner.hasNext()) {     
+            this.identificadorPokemon = scanner.nextInt();
+            this.nomePokemon = scanner.next();
+            this.descricaoPokemon = scanner.next();
+            this.tipoPokemon = scanner.next();
+            this.habilidadePokemon = scanner.next();
+            
+            pokemon.setIdentificador(this.identificadorPokemon);
+            pokemon.setNome(this.nomePokemon);
+            pokemon.setDescricao(this.descricaoPokemon);
+            pokemon.setTipo(this.tipoPokemon);
+            pokemon.setHabilidade(this.habilidadePokemon);
+            listaPokemons.add(pokemon);
+            pokemon = new Pokemon();
+        }
+        scanner.close();
+    }
+    
+    public void imprimirListaPokemons(){
+        for (int i = 0; i < listaPokemons.size(); i++) {
+            System.out.println(listaPokemons.get(i).toString());
+        }
+    }
+    
+    public void pesquisarElementoListaPokemons(int identPokemonCapturado){
+        for(int i=0; i < listaPokemons.size(); i++){
+            if(listaPokemons.get(i).getIdentificador()== identPokemonCapturado){
+                System.out.println(listaPokemons.get(i).toString());
+            }
+        }
+    }
+    
+    public void pokedexInformacao (int identPokemon){
+        for(int i=0; i < listaPokemons.size(); i++){
+            if(listaPokemons.get(i).getIdentificador()== identPokemon){
+                System.out.println(listaPokemons.get(i).getIdentificador());
+                System.out.println(listaPokemons.get(i).getNome());
+            }
+        }
+    }
 }
 
