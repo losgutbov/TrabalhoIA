@@ -11,8 +11,9 @@ package trabalhoia2;
  */
 public class Pokemon {
     
-    private int identificador;
     private String nome, descricao, tipo, habilidade;
+    private int identificador;
+   
 
     public Pokemon(){}
     
