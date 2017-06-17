@@ -18,11 +18,16 @@ public class TrabalhoIA {
      */
     public static void main(String[] args) throws IOException {
         RegrasFuncionamento regra = new RegrasFuncionamento();
-        regra.lerMatrizTerreno();
-        regra.sortearTudo();
+       // regra.lerMatrizTerreno();
+        //regra.sortearTudo();
         //regra.imprimirMatriz();
+        regra.lerInformacoesPokemon();
+        regra.imprimirListaPokemons();
+        regra.pesquisarElemntoListaPokemons(1);
+        regra.pokedexInformacao(2);
+   
         
-        Interface inter = new Interface(730, 1370, regra); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
-        inter.geraInterface();
+       // Interface inter = new Interface(730, 1370, regra); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
+       // inter.geraInterface();
     }
 }
