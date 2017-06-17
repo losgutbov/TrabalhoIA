@@ -148,11 +148,13 @@ public class Interface extends JFrame{
         for(int i=0; i<lin; i++){
             for(int j=0; j<col; j++){
                 JLabel terreno = new JLabel(tipoter[this.getRegras().getMatrizTerreno()[i][j]]);
+                System.out.print(this.getRegras().getMatrizTerreno()[i][j]);
                 terreno.setBounds(getPosiX(), getPosiY(), 14, 16);
                 terrenos.add(terreno);
                 painel.add(terreno);
                 setPosiX(getPosiX()+14);
             }
+            System.out.println(" ");
             setPosiX(0);
             setPosiY(getPosiY()+16);
         }

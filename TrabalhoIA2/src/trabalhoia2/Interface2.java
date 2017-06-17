@@ -37,7 +37,6 @@ public class Interface2 extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1370, 730));
-        setPreferredSize(new java.awt.Dimension(1370, 730));
         setSize(new java.awt.Dimension(1000, 1370));
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));

@@ -166,7 +166,7 @@ public class RegrasFuncionamento {
             System.out.println(" ");
          }          
     }
-    
+        
     private void iniciarAgente(){
         //19 linhas 24 colunas
         this.matrizElementos[19][24]=AGENTE;
@@ -275,11 +275,12 @@ public class RegrasFuncionamento {
         this.sortearTreinador();
         this.varrerMatrizParaSensores();
     }
-    
+   
     //método para ler arquivo txt para preencher a matriz com os terrenos especificos
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
         
-        FileReader txtMatriz = new FileReader("C:\\Users\\Thamires\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\arquivos\\matrizTerrenos.txt");
+        FileReader txtMatriz = new FileReader("C:\\Users\\Stephanie\\Desktop\\matrizTerrenos.txt");
+//        FileReader txtMatriz = new FileReader(getClass().getResource("arquivos/matrizTerrenos.txt").toString());
         Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
         int cont=0, i=0;
         try{                        
