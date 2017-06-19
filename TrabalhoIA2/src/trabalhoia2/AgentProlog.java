@@ -24,7 +24,7 @@ public class AgentProlog {
     
     public void terrenoGrama() throws IOException{
         
-        FileReader txtMatriz = new FileReader("C:\\Users\\Stephanie\\Desktop\\matrizTerrenos.txt");
+        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Desktop\\matrizTerrenos.txt");
         Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
         int cont=0, i=0;
         try{                        
