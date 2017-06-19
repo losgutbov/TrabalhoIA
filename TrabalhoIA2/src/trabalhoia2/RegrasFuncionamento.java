@@ -279,7 +279,7 @@ public class RegrasFuncionamento {
     //método para ler arquivo txt para preencher a matriz com os terrenos especificos
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
         
-        FileReader txtMatriz = new FileReader("C:\\Users\\Stephanie\\Desktop\\matrizTerrenos.txt");
+        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Desktop\\matrizTerrenos.txt");
 //        FileReader txtMatriz = new FileReader(getClass().getResource("arquivos/matrizTerrenos.txt").toString());
         Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
         int cont=0, i=0;
@@ -297,7 +297,7 @@ public class RegrasFuncionamento {
     }
     
     public void lerInformacoesPokemon()throws FileNotFoundException, IOException{
-        Scanner scanner = new Scanner(new FileReader("C:\\Users\\Thamires\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
+        Scanner scanner = new Scanner(new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
        
         while (scanner.hasNext()) {     
             this.identificadorPokemon = scanner.nextInt();

@@ -148,13 +148,13 @@ public class Interface extends JFrame{
         for(int i=0; i<lin; i++){
             for(int j=0; j<col; j++){
                 JLabel terreno = new JLabel(tipoter[this.getRegras().getMatrizTerreno()[i][j]]);
-                System.out.print(this.getRegras().getMatrizTerreno()[i][j]);
+                //System.out.print(this.getRegras().getMatrizTerreno()[i][j]);
                 terreno.setBounds(getPosiX(), getPosiY(), 14, 16);
                 terrenos.add(terreno);
                 painel.add(terreno);
                 setPosiX(getPosiX()+14);
             }
-            System.out.println(" ");
+            //System.out.println(" ");
             setPosiX(0);
             setPosiY(getPosiY()+16);
         }
@@ -198,7 +198,7 @@ public class Interface extends JFrame{
         avanca.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent evt){
                 int[] coordenadasNovas = regras.determinarMovimento();
-                System.out.println(regras.getPosicaoAtual()[0]+" "+regras.getPosicaoAtual()[1]);
+                //System.out.println(regras.getPosicaoAtual()[0]+" "+regras.getPosicaoAtual()[1]);
                 //movimentar(regras.getPosicaoAtual()[0]-1, regras.getPosicaoAtual()[1]);
                 if(movimentar(coordenadasNovas[0], coordenadasNovas[1])){
                     regras.adicionarCustoPontuacao(regras.MVFRENTE);
