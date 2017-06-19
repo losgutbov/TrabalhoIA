@@ -123,25 +123,25 @@ public class RegrasFuncionamento {
         coordenadasNovas[1]=this.getPosicaoAtual()[1];
         switch(this.getSentido()){
             case CIMA:
-                if(((coordenadasNovas[0])--)<0){
+                if((--(coordenadasNovas[0]))<0){
                     coordenadasNovas[0]=-1;
                     coordenadasNovas[1]=-1;
                 }                
                 break;
             case DIREITA:
-                if(((coordenadasNovas[1])++)>41){
+                if((++(coordenadasNovas[1]))>41){
                     coordenadasNovas[0]=-1;
                     coordenadasNovas[1]=-1;
                 }                
                 break;
             case BAIXO:
-                if(((coordenadasNovas[0])++)>41){
+                if((++coordenadasNovas[0])>41){
                     coordenadasNovas[0]=-1;
                     coordenadasNovas[1]=-1;
                 }
                 break;
             case ESQUERDA:
-                if(((coordenadasNovas[1])--)<0){
+                if((--(coordenadasNovas[1]))<0){
                     coordenadasNovas[0]=-1;
                     coordenadasNovas[1]=-1;
                 }                
