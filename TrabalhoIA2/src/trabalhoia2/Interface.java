@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -22,7 +23,8 @@ import javax.swing.JPanel;
 public class Interface extends JFrame{
     
     private JPanel mapa = new JPanel(), controles = new JPanel(), painelInfo = new JPanel();
-    private int altura, largura, posiX, posiY;
+    private JPanel painelAtual = new JPanel(), painelLog = new JPanel();;
+    private int altura, largura, posiX, posiY, indexPainelAtual, indexPainelLog;
     private ArrayList<JLabel> terrenos = new ArrayList<>();
     private ImageIcon[] tipoter = new ImageIcon[5]; 
     private ImageIcon[] tipoAvat = new ImageIcon[5]; 
@@ -70,6 +72,23 @@ public class Interface extends JFrame{
     public void setRegras(RegrasFuncionamento regras) {
         this.regras = regras;
     }
+
+    public int getIndexPainelAtual() {
+        return indexPainelAtual;
+    }
+
+    public void setIndexPainelAtual(int indexPainelAtual) {
+        this.indexPainelAtual = indexPainelAtual;
+    }
+
+    public int getIndexPainelLog() {
+        return indexPainelLog;
+    }
+
+    public void setIndexPainelLog(int indexPainelLog) {
+        this.indexPainelLog = indexPainelLog;
+    }
+    
     //-------------------------FIM MÉTODOS GET E SET---------------------------------//
     
     //-------------------------MÉTODOS GENÉRICOS-------------------------------------//
@@ -83,6 +102,7 @@ public class Interface extends JFrame{
     }
 
     private boolean movimentar(int sentidoLin, int sentidoCol){
+        if((sentidoLin<0) && (sentidoCol<0)){return false;}
         int lin = this.regras.getPosicaoAtual()[0], col = this.regras.getPosicaoAtual()[1];
         int indexTerrenos = (lin*42)+col;
         this.terrenos.get(indexTerrenos).setIcon(tipoter[this.getRegras().getMatrizTerreno()[lin][col]]);
@@ -117,6 +137,11 @@ public class Interface extends JFrame{
         tipoAvat[3] = new ImageIcon(getClass().getResource("imagens/avatarCaverna.png"));
         tipoAvat[4] = new ImageIcon(getClass().getResource("imagens/avatarVulcao.png"));
     }
+    
+    private ImageIcon definePokemon(int numPok){
+        ImageIcon pokemon = new ImageIcon(getClass().getResource("imagens/pokemons/"+numPok+".png"));
+        return pokemon;
+    }
     //--------------------FIM MÉTODOS DE DEFINIÇÃO DE ÍCONES----------------------------//
 
     //--------------------MÉTODOS DE ELEMENTOS GRÁFICOS----------------------------//    
@@ -127,6 +152,7 @@ public class Interface extends JFrame{
         adicionaControles();
         posicionarPersonagem(this.regras.getPosicaoAtual()[0], this.regras.getPosicaoAtual()[1]);
         adicionarPainelInfo();
+        introduzPokemons(42, 42);
         this.setLayout(null);
         this.setVisible(true);     
     }
@@ -148,15 +174,26 @@ public class Interface extends JFrame{
         for(int i=0; i<lin; i++){
             for(int j=0; j<col; j++){
                 JLabel terreno = new JLabel(tipoter[this.getRegras().getMatrizTerreno()[i][j]]);
-                //System.out.print(this.getRegras().getMatrizTerreno()[i][j]);
                 terreno.setBounds(getPosiX(), getPosiY(), 14, 16);
                 terrenos.add(terreno);
                 painel.add(terreno);
                 setPosiX(getPosiX()+14);
             }
-            //System.out.println(" ");
             setPosiX(0);
             setPosiY(getPosiY()+16);
+        }
+    }
+    
+    public void introduzPokemons(int lin, int col){
+        for(int i=0; i<lin; i++){
+            for(int j=0; j<col; j++){
+                if((regras.getMatrizElementos()[i][j]>0) && (regras.getMatrizElementos()[i][j]<41)){
+                    JLabel pokemon = new JLabel(definePokemon(regras.getMatrizElementos()[i][j]));
+                    pokemon.setBounds(terrenos.get((i*42)+j).getBounds());
+                    this.mapa.add(pokemon);
+                    mapa.setComponentZOrder(pokemon, 0);
+                }
+            }
         }
     }
     
@@ -198,55 +235,53 @@ public class Interface extends JFrame{
         avanca.addActionListener(new java.awt.event.ActionListener(){
             public void actionPerformed(java.awt.event.ActionEvent evt){
                 int[] coordenadasNovas = regras.determinarMovimento();
-                //System.out.println(regras.getPosicaoAtual()[0]+" "+regras.getPosicaoAtual()[1]);
-                //movimentar(regras.getPosicaoAtual()[0]-1, regras.getPosicaoAtual()[1]);
                 if(movimentar(coordenadasNovas[0], coordenadasNovas[1])){
                     regras.adicionarCustoPontuacao(regras.MVFRENTE);
                     pontos.setText(Integer.toString(regras.getPontuacao()));
+                }else{
+                    JOptionPane.showMessageDialog(null, "Movimento impossível!");
                 }
             }
         });
         controles.add(avanca);
-        /*
-        ImageIcon volt = new ImageIcon(getClass().getResource("imagens/volta.PNG"));
-        volta = new JButton(volt);
-        volta.setBounds(100, (controles.getSize().height)-100, 100, 100);
-        volta.addActionListener(new java.awt.event.ActionListener(){
-            public void actionPerformed(java.awt.event.ActionEvent evt){
-                movimentar(regras.getPosicaoAtual()[0]+1, regras.getPosicaoAtual()[1]);
-            }
-        });
-        controles.add(volta);
-        */
     }
     
     private void adicionarPainelInfo(){//Cria o campo de informações sobre o que ocorre no jogo.
         JLabel tagPontos = new JLabel("Pontos: ");
-        JPanel painelAtual = new JPanel();
-        JPanel painelLog = new JPanel();
+        JLabel tagPokebolas = new JLabel("Pokébolas: ");
+        JLabel tagCarga = new JLabel("Carga: ");
         
-        painelInfo.setSize(600, 350);
-        painelInfo.setLocation(painelInfo.getSize().width + 125, painelInfo.getSize().height - 300);
+        painelInfo.setSize(610, 350);
+        painelInfo.setLocation(painelInfo.getSize().width + 115, painelInfo.getSize().height - 300);
         painelInfo.setBackground(Color.white);
         painelInfo.setLayout(null);
         tagPontos.setBounds(25, 10, 120, 25);
         tagPontos.setForeground(Color.red);
         tagPontos.setFont(new Font("Dialog", Font.PLAIN, 30));
+        tagPokebolas.setBounds(225, 10, 160, 25);
+        tagPokebolas.setForeground(Color.red);
+        tagPokebolas.setFont(new Font("Dialog", Font.PLAIN, 30));
+        tagCarga.setBounds(425, 5, 100, 35);
+        tagCarga.setForeground(Color.red);
+        tagCarga.setFont(new Font("Dialog", Font.PLAIN, 30));
         pontos.setText("0");
         pontos.setBounds(130, 10, 120, 25);
         pontos.setForeground(Color.red);
         pontos.setFont(new Font("Dialog", Font.PLAIN, 30));
-        painelAtual.setSize(540, 150);
+        painelAtual.setSize(560, 150);
         painelAtual.setLocation(25, 50);
         painelAtual.setBackground(Color.black);
         painelAtual.setLayout(null);
-        painelLog.setSize(540, 110);
+        painelLog.setSize(560, 110);
         painelLog.setLocation(25, 215);
         painelLog.setBackground(Color.yellow);
         painelLog.setLayout(null);
         painelInfo.add(tagPontos);
+        painelInfo.add(tagPokebolas);
+        painelInfo.add(tagCarga);
         painelInfo.add(pontos);
         painelInfo.add(painelAtual);
+        setIndexPainelAtual(painelInfo.getComponentZOrder(painelAtual));
         painelInfo.add(painelLog);
         adicionar(painelInfo);
     }
