@@ -21,7 +21,8 @@ public class RegrasFuncionamento {
     private int[][] matrizTerreno = new int[42][42];//matriz que receberá os valores referentes à localização dos terrenos
     private int[][] matrizElementos = new int[42][42];//posições de pokemons, centro e lojas.
     private int[] posicaoAtual = new int[2];
-    private int[] codPokemon = new int[150];
+    //private int[] codPokemon = new int[150];
+    private int pokebolas = 25;
     private int sentido;
     private int pontuacao;
     private int identificadorPokemon;
@@ -66,7 +67,7 @@ public class RegrasFuncionamento {
         this.matrizTerreno = matrizTerreno;
     }
 
-    private int[][] getMatrizElementos() {
+    public int[][] getMatrizElementos() {
         return matrizElementos;
     }
 
@@ -339,5 +340,6 @@ public class RegrasFuncionamento {
             }
         }
     }
+    
 }
 
