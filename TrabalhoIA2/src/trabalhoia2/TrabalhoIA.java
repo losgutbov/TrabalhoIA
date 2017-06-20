@@ -24,9 +24,9 @@ public class TrabalhoIA {
         regra.sortearTudo();
         //regra.imprimirMatriz();
         regra.lerInformacoesPokemon();
-        regra.imprimirListaPokemons();
-        regra.pesquisarElementoListaPokemons(1);
-        regra.pokedexInformacao(2);
+        //regra.imprimirListaPokemons();
+        //regra.pesquisarElementoListaPokemons(1);
+        //regra.pokedexInformacao(2);
    
         
         Interface inter = new Interface(730, 1370, regra); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
