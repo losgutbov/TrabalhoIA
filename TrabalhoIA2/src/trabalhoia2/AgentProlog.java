@@ -22,49 +22,51 @@ public class AgentProlog {
     private int[][] matrizTerreno = new int[42][42];//matriz que receberá os valores referentes à localização dos terrenos
     
     
-    public void terrenoGrama() throws IOException{
-        
-        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Desktop\\matrizTerrenos.txt");
-        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
-        int cont=0, i=0;
-        try{                        
-            while(lerTxt.hasNext()){
-                String[] a1 = lerTxt.next().split(" ");
-                for(int j=0; j<42; j++){
-                    this.matrizTerreno[i][j] = Integer.parseInt(a1[j]);
-                    if(this.matrizTerreno[i][j] == 0){
-                    
-                    }
-                    
-                    System.out.println(matrizTerreno[i][j]);
-                }
-                i++;
-            }                           
-        }catch(Exception IOException){
-            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
-        }
-    }
-    
-        
-            
-            
-    
-//    public static void main(String args[]){
+//    public void terrenoGrama() throws IOException{
 //        
-//        String t1 = "consult('teste.pl')";
-//        Query q1 = new Query(t1);
-//        System.out.println(t1 + " " + (q1.hasSolution() ? "correto" : "falhou"));
-//        String t2 = "pai(lima,rodrigo)";
-//        Query q2 = new Query(t2);
-//        System.out.println(t2 + " " + (q2.hasSolution() ? "correto" : "falhou"));
-//        String t3 = "pai(X,Y)";
-//        Query q3 = new Query(t3);
-//        System.out.println(t3 + " " + (q3.hasSolution() ? "correto" : "falhou"));
-//        while(q3.hasMoreSolutions()){
-//            Map<String, Term> s4 = q3.nextSolution();
-//            System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
-//        
+//        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Desktop\\matrizTerrenos.txt");
+//        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
+//        int cont=0, i=0;
+//        try{                        
+//            while(lerTxt.hasNext()){
+//                String[] a1 = lerTxt.next().split(" ");
+//                for(int j=0; j<42; j++){
+//                    this.matrizTerreno[i][j] = Integer.parseInt(a1[j]);
+//                    if(this.matrizTerreno[i][j] == 0){
+//                    
+//                    }
+//                    
+//                    System.out.println(matrizTerreno[i][j]);
+//                }
+//                i++;
+//            }                           
+//        }catch(Exception IOException){
+//            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
 //        }
 //    }
+    
+        
+            
+            
+    
+    public static void main(String args[]){
+        
+        //Alterar para o arquivo controlesPoke.pl.
+        
+        String t1 = "consult('teste.pl')";
+        Query q1 = new Query(t1);
+        System.out.println(t1 + " " + (q1.hasSolution() ? "correto" : "falhou"));
+        String t2 = "pai(lima,rodrigo)";
+        Query q2 = new Query(t2);
+        System.out.println(t2 + " " + (q2.hasSolution() ? "correto" : "falhou"));
+        String t3 = "pai(X,Y)";
+        Query q3 = new Query(t3);
+        System.out.println(t3 + " " + (q3.hasSolution() ? "correto" : "falhou"));
+        while(q3.hasMoreSolutions()){
+            Map<String, Term> s4 = q3.nextSolution();
+            System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
+        
+        }
+    }
     
 }
