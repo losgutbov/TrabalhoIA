@@ -1,0 +1,7 @@
+1|Bulbasaur|Considerado raro, bem comportado e leal|Grama/Venenoso|Capacidade invisivel
+2|Ivysaur|Evolucao de Bulbasaur a partir do nivel 16, e quadrupede e semelhante a um dinossauro|Grama/Venenoso|Capacidade invisivel
+3|Venusaur|Evolucao de Ivysaur a partir do 32, utiliza sua flor para pegar os raios do sol e converter em energia|Grama/Venenoso|Capacidade invisivel
+4|Charmander|Sua chama pode ser usada como indicador de saude e do seu bom humor, queima vivamente quando está forte|Fogo|Capacidedade invisivel
+5|Charmeleon|Evolui de Charmander a partir do 16, tem uma natureza viciosa e constantemente busca adversarios|Fogo|Capacidade invisivel
+6|Charizard|Evolui de Charmeleon a partir do nivel 36, voa em busca de adversarios poderosos para batalha|Fogo/Voo|Capacidade invisivel
+7|Squirtle|Pequeno e se assemelha a uma tartaruga azul clara|Agua|Chuva
