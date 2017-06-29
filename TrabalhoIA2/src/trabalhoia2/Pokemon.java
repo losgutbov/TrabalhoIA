@@ -11,7 +11,7 @@ package trabalhoia2;
  */
 public class Pokemon {
     
-    private String nome, descricao, tipo, habilidade;
+    private String nome, descricao, tipo;
     private int identificador;
    
 
@@ -48,18 +48,10 @@ public class Pokemon {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-
-    public String getHabilidade() {
-        return habilidade;
-    }
-
-    public void setHabilidade(String habilidade) {
-        this.habilidade = habilidade;
-    }
-    
     
     public String toString() {
-         return identificador + "\n" + nome + "\n" + descricao + "\n" + tipo + "\n" + habilidade + "\n";
+        return "Identificador:" + identificador + "\n" + "Nome:" +nome + "\n" + "Descrição" + descricao + 
+        "\n" + "Tipo(s):" + tipo + "\n";
     }
 }
 
