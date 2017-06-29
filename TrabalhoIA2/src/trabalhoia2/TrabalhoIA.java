@@ -18,7 +18,6 @@ public class TrabalhoIA {
      */
     public static void main(String[] args) throws IOException {
         RegrasFuncionamento regra = new RegrasFuncionamento();
-//        AgentProlog  agent = new AgentProlog();
 //        agent.terrenoGrama();
         regra.lerMatrizTerreno();
         regra.sortearTudo();
@@ -27,9 +26,16 @@ public class TrabalhoIA {
         //regra.imprimirListaPokemons();
         //regra.pesquisarElementoListaPokemons(1);
         //regra.pokedexInformacao(2);
-   
+
+        AgentProlog  agente = new AgentProlog();
+        agente.setMatrizTerreno(regra.getMatrizTerreno());
+        agente.executarAgente();
         
         Interface inter = new Interface(730, 1370, regra); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
         inter.geraInterface();
+        //inter.outroPosicionamento(24, 20);
+        //inter.outroPosicionamento(24, 18);
+        //inter.outroPosicionamento(23, 19);        
+        
     }
 }
