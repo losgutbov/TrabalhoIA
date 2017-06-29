@@ -50,7 +50,7 @@ public class Pokemon {
     }
     
     public String toString() {
-        return "Identificador:" + identificador + "\n" + "Nome:" +nome + "\n" + "Descrição" + descricao + 
+        return "Identificador:" + identificador + "\n" + "Nome:" +nome + "\n" + "Descrição:" + descricao + 
         "\n" + "Tipo(s):" + tipo + "\n";
     }
 }
