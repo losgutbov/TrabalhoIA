@@ -101,6 +101,12 @@ public class Interface extends JFrame{
         regras.setPosicaoAtual(i, j);
     }
 
+    public void outroPosicionamento(int X, int Y){
+        int i=Y,j=X;
+        int indexTerrenos = (i*42)+j;
+        terrenos.get(indexTerrenos).setIcon(tipoAvat[this.getRegras().getMatrizTerreno()[i][j]]);
+    }
+    
     private boolean movimentar(int sentidoLin, int sentidoCol){
         if((sentidoLin<0) && (sentidoCol<0)){return false;}
         int lin = this.regras.getPosicaoAtual()[0], col = this.regras.getPosicaoAtual()[1];
