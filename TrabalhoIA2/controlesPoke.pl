@@ -1,6 +1,6 @@
-%Primeiros Controles do Jogo Pokémon
+%Primeiros Controles do Jogo Pokï¿½mon
 %Trabalho de IA
-%Referências: https://pt.wikibooks.org/wiki/Prolog/Matem%C3%A1tica
+%Referï¿½ncias: https://pt.wikibooks.org/wiki/Prolog/Matem%C3%A1tica
 
 %Conhecimentos
  %Para movimentar.
@@ -17,13 +17,13 @@
  terreno(caverna).
  terreno(4).
  terreno(vulcao).
- %A respeito dos Pokémons.
+ %A respeito dos Pokï¿½mons.
  % pokemon(NOME, CODIGO, TIPO).
  :-dynamic pokemon/3.
  %A respeito do MAPA.
  %mapa(COORDENADA_X, COORDENADA_Y, TIPO_TERRENO).
  :-dynamic mapa/3.
- %Para ter conhecimento das coordenadas que já passou.
+ %Para ter conhecimento das coordenadas que jï¿½ passou.
  %mapaExplorado(COORDENADA_X, COORDENADA_Y).
  :-dynamic mapaExplorado/2.
  %Para as pokebolas.
@@ -57,11 +57,12 @@
 %Para recarregar pokebolas.
  recarregarPokebolas:-pokebolas(X), Z is X +25, setarPokebolas(Z).
 
-%Condições iniciais.
+%Condiï¿½ï¿½es iniciais.
+ armazenarTerrenos(X,Y,Z):-limites(X,Y),asserta(mapa(X,Y,Z)).
  setarCoordenadas(X,Y):-limites(X,Y), asserta(coordenadas(X,Y)).
  setarSentido(X):-X>=0, X<4, asserta(sentido(X)).
  setarPokebolas(X):-asserta(pokebolas(X)).
- inicializar:-setarCoordenadas(2,1),setarSentido(2), setarPokebolas(25).
+ inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25).
 %Para mudar as coordenadas.
  armazenaExplorado:-coordenadas(X,Y), asserta(mapaExplorado(X,Y)).
  limpaCoordenadas:-retractall(coordenadas(_,_)).
@@ -74,7 +75,7 @@
  giraEsquerda:-sentido(Y), Z is 1 + Y ,limpaSentido, sentidoEmCicloEsq(Z).
  giraDireita:-sentido(Y), Z is -1 + Y, limpaSentido, sentidoEmCicloDir(Z).
 
- verificarGiro(SO,SD):-(SO=\=SD),(SO>SD->(giraDireita);((SO<SD)->(giraEsquerda))).%Precisa ser recursivo para girar quantas vezes for necessário.
+ verificarGiro(SO,SD):-(SO=\=SD),(SO>SD->(giraDireita);((SO<SD)->(giraEsquerda))).%Precisa ser recursivo para girar quantas vezes for necessï¿½rio.
  sentidoDesejado(_,Y,_,W,SD,SO):-(Y=\=W),((Y>W)->SD is 0;((Y<W)-> SD is 2;SD is SO)).
  sentidoDesejado(X,_,K,_,SD,SO):-(X=\=K),((X>K)->SD is 3;((X<K)-> SD is 1;SD is SO)).
 
