@@ -20,34 +20,42 @@ import org.jpl7.Term;
 public class AgentProlog {
     
     private int[][] matrizTerreno = new int[42][42];//matriz que receberá os valores referentes à localização dos terrenos
+    private String[] vetorTerreno = {"grama", "agua", "montanha", "caverna", "vulcao"};
     
-    
-//    public void terrenoGrama() throws IOException{
-//        
-//        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Desktop\\matrizTerrenos.txt");
-//        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
-//        int cont=0, i=0;
-//        try{                        
-//            while(lerTxt.hasNext()){
-//                String[] a1 = lerTxt.next().split(" ");
-//                for(int j=0; j<42; j++){
-//                    this.matrizTerreno[i][j] = Integer.parseInt(a1[j]);
-//                    if(this.matrizTerreno[i][j] == 0){
-//                    
-//                    }
-//                    
-//                    System.out.println(matrizTerreno[i][j]);
-//                }
-//                i++;
-//            }                           
-//        }catch(Exception IOException){
-//            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
-//        }
-//    }
-    
-        
-            
-            
+    public int[][] getMatrizTerreno() {
+        return matrizTerreno;
+    }
+
+    public void setMatrizTerreno(int[][] matrizTerreno) {
+        this.matrizTerreno = matrizTerreno;
+    }
+
+    public void executarAgente(){
+        String comando = "consult('controlesPoke.pl')";
+        Query execucaoComando = new Query(comando);
+        System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
+        comando = "inicializar";
+        execucaoComando = new Query(comando);
+        System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
+        for(int i = 0; i<42; i++){
+            for(int j= 0; j<42; j++){
+                comando = "armazenarTerrenos("+i+","+j+","+vetorTerreno[getMatrizTerreno()[i][j]]+")";
+                execucaoComando = new Query(comando);
+                System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
+            }
+        }
+        comando = "possiveis_caminhos_proximos(X,Y)";
+        execucaoComando = new Query(comando);
+        //Map<String, Term> s4 = execucaoComando.nextSolution();
+        //System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
+        //*    
+        while(execucaoComando.hasMoreSolutions()){
+            Map<String, Term> s4 = execucaoComando.nextSolution();
+            System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
+        }
+        //System.out.println(comando + " " + (execucaoComando.getSolution().get("K").toString())+" "+execucaoComando.getSolution().get("W").toString());
+        //*/
+    }
     
     public static void main(String args[]){
         
