@@ -281,7 +281,7 @@ public class RegrasFuncionamento {
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
         
 
-        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\\\matrizTerrenos.txt");
+        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\matrizTerrenos.txt");
 
 //        FileReader txtMatriz = new FileReader(getClass().getResource("arquivos/matrizTerrenos.txt").toString());
         Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
