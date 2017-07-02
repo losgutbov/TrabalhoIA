@@ -26,13 +26,12 @@ public class TrabalhoIA {
         //regra.imprimirListaPokemons();
         //regra.pesquisarElementoListaPokemons(1);
         //regra.pokedexInformacao(2);
-
-        AgentProlog  agente = new AgentProlog();
-        agente.setMatrizTerreno(regra.getMatrizTerreno());
-        agente.executarAgente();
-        
         Interface inter = new Interface(730, 1370, regra); //Instancia objeto do tipo interface que carrega a interface gráfica do jogo, com os controles.
+        AgentProlog  agente = new AgentProlog(inter);
+        //agente.setMatrizTerreno(regra.getMatrizTerreno());
+        
         inter.geraInterface();
+        agente.executarAgente();
         //inter.outroPosicionamento(24, 20);
         //inter.outroPosicionamento(24, 18);
         //inter.outroPosicionamento(23, 19);        
