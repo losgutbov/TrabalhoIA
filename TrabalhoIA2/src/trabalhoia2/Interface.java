@@ -29,10 +29,27 @@ public class Interface extends JFrame{
     private ImageIcon[] tipoter = new ImageIcon[5]; 
     private ImageIcon[] tipoAvat = new ImageIcon[5]; 
     private JButton esquerda, direita, avanca, volta, lancaPokebola;
-    private JLabel pontos = new JLabel();
+    private JLabel pontos = new JLabel(), pokebolas = new JLabel(), carga = new JLabel();
     private RegrasFuncionamento regras;
     
+    //-----MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA----//
+
+    public void repassarInterface(int coordenadaX, int coordenadaY, int pontos, int pokebolas, int carga, int totalPokemons){
+        movimentar(coordenadaY,coordenadaX);
+        this.pontos.setText(Integer.toString(pontos));
+        this.pokebolas.setText(Integer.toString(pokebolas));
+        if(carga==1){
+            this.carga.setText("Alta");
+        }else{
+            this.carga.setText("Baixa");
+        }
+        
+    } 
+    
+    //---FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA--//    
+    
     //-------------------------MÉTODOS GET E SET---------------------------------//
+    
     public int getAltura() {
         return altura;
     }
@@ -156,11 +173,14 @@ public class Interface extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         adicionarMapa();
         adicionaControles();
-        posicionarPersonagem(this.regras.getPosicaoAtual()[0], this.regras.getPosicaoAtual()[1]);
+        /*
+        //posicionarPersonagem(this.regras.getPosicaoAtual()[0], this.regras.getPosicaoAtual()[1]);
+        */
         adicionarPainelInfo();
         introduzPokemons(42, 42);
         this.setLayout(null);
         this.setVisible(true);     
+        
     }
     
     private void adicionarMapa(){//Cria o mapa do jogo e chama o gerador de terrenos
@@ -274,6 +294,12 @@ public class Interface extends JFrame{
         pontos.setBounds(130, 10, 120, 25);
         pontos.setForeground(Color.red);
         pontos.setFont(new Font("Dialog", Font.PLAIN, 30));
+        pokebolas.setBounds(375, 10, 120, 25);
+        pokebolas.setForeground(Color.red);
+        pokebolas.setFont(new Font("Dialog", Font.PLAIN, 30));
+        carga.setBounds(520, 10, 120, 25);
+        carga.setForeground(Color.red);
+        carga.setFont(new Font("Dialog", Font.PLAIN, 30));
         painelAtual.setSize(560, 150);
         painelAtual.setLocation(25, 50);
         painelAtual.setBackground(Color.black);
@@ -286,6 +312,8 @@ public class Interface extends JFrame{
         painelInfo.add(tagPokebolas);
         painelInfo.add(tagCarga);
         painelInfo.add(pontos);
+        painelInfo.add(pokebolas);
+        painelInfo.add(carga);
         painelInfo.add(painelAtual);
         setIndexPainelAtual(painelInfo.getComponentZOrder(painelAtual));
         painelInfo.add(painelLog);
