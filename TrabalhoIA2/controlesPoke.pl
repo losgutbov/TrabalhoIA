@@ -17,7 +17,7 @@
  terreno(montanha).
  terreno(caverna).
  terreno(vulcao).
- %Tipos que dão acesso a outros terrenos
+ %Tipos que dï¿½o acesso a outros terrenos
  acesso(voo).
  acesso(agua).
  acesso(eletrico).
@@ -38,7 +38,7 @@
  :-dynamic energia/1.
  %Para saber a quantidade de Pokemons capturados.
  :-dynamic totalPokemons/1.
- %Para a pontuação total.
+ %Para a pontuaï¿½ï¿½o total.
  :-dynamic pontos/1.
 
 %Regras
@@ -51,7 +51,7 @@
  incrementarPokemons:-totalPokemons(T), NOVOTOTAL is T +1, setarTotalPokemons(NOVOTOTAL).
  setarPokemon(NOME,COD,T1,T2,T3,_):-((classificaPokeTerreno(NOME,COD,T1,T2,T3,_),classificaPokeTerreno(NOME,COD,T2,T1,T3,_),classificaPokeTerreno(NOME,COD,T3,T2,T1,_));armazenaPoke(NOME,COD,T1,T2,T3,-)), incrementarPokemons.
 
- %Para passar as informações para o java.
+ %Para passar as informaï¿½ï¿½es para o java.
  passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons):-coordenadas(CoordenadaX, CoordenadaY), pontos(Pontos), pokebolas(Pokebolas), energia(Carga), totalPokemons(TotalPokemons).
 
 %Para caminhar sobre terreno.
