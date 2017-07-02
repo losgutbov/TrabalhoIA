@@ -6,16 +6,16 @@
  %Para movimentar.
  :-dynamic coordenadas/2.
  :-dynamic sentido/1.
+ %Fatos correspondentes � sensores para perceber o ambiente
+  estimulo(gritoTreinador). %gritos do treinador
+  estimulo(perfumeJoy). %perfume de joy
+  estimulo(ouvirVendedor). %agente ouve o vendedor oferencendo pokemons
+
  %Tipos de terreno.
- terreno(0).
  terreno(grama).
- terreno(1).
  terreno(agua).
- terreno(2).
  terreno(montanha).
- terreno(3).
  terreno(caverna).
- terreno(4).
  terreno(vulcao).
  %A respeito dos Pok�mons.
  % pokemon(NOME, CODIGO, TIPO).
@@ -28,6 +28,10 @@
  :-dynamic mapaExplorado/2.
  %Para as pokebolas.
  :-dynamic pokebolas/1.
+ %Para saber a energia dos Pokemons
+ :-dynamic energia/1.
+ %Para saber a quantidade de Pokemons capturados.
+ :-dynamic totalPokemons/1.
 
 %Regras
 %Para caminhar sobre terreno.
@@ -54,15 +58,33 @@
 %Para capturar pokemons.
  capturar(X,Y,Z):-pokebolas(W),(W>0),asserta(pokemon(X,Y,Z)), (K is W-1), setarPokebolas(K).
 
+
+/*
+estimuloAdjacentes(gritoTreinador):-
+estimuloAdjacentes(perfumeJoy):-
+estimuloAdjacentes(ouvirVendedor):-
+*/
+
+
+
 %Para recarregar pokebolas.
  recarregarPokebolas:-pokebolas(X), Z is X +25, setarPokebolas(Z).
+
+%Para recarregar energia dos Pokemons.
+ recarregarEnergia:-energia(Carga), (Carga=\=1), setarEnergia(1).
+
+%Para batalhar
+ batalha(GouP):-totalPokemons(Qtd), (Qtd>0), ((energia(Carga), Carga=:=1)->(GouP is 1);(GouP is 0)).
+ batalha(_):-totalPokemons(Qtd), (Qtd=:=0).
 
 %Condi��es iniciais.
  armazenarTerrenos(X,Y,Z):-limites(X,Y),asserta(mapa(X,Y,Z)).
  setarCoordenadas(X,Y):-limites(X,Y), asserta(coordenadas(X,Y)).
  setarSentido(X):-X>=0, X<4, asserta(sentido(X)).
  setarPokebolas(X):-asserta(pokebolas(X)).
- inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25).
+ setarEnergia(Carga):-asserta(energia(Carga)).
+ setarTotalPokemons(Quantidade):-asserta(totalPokemons(Quantidade)).
+ inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25), setarEnergia(1), setarTotalPokemons(0).
 %Para mudar as coordenadas.
  armazenaExplorado:-coordenadas(X,Y), asserta(mapaExplorado(X,Y)).
  limpaCoordenadas:-retractall(coordenadas(_,_)).
