@@ -44,11 +44,13 @@ public class AgentProlog {
                 System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
             }
         }
-        comando = "possiveis_caminhos_proximos(X,Y)";
+        comando = "operacao(X,Y)";
         execucaoComando = new Query(comando);
-        //Map<String, Term> s4 = execucaoComando.nextSolution();
-        //System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
-        //*    
+        execucaoComando.hasMoreSolutions();
+        Map<String, Term> s4 = execucaoComando.nextSolution();
+        System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
+        
+        /*    
         while(execucaoComando.hasMoreSolutions()){
             Map<String, Term> s4 = execucaoComando.nextSolution();
             System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
