@@ -300,11 +300,11 @@ public class RegrasFuncionamento {
     }
     
     public void lerInformacoesPokemon()throws FileNotFoundException, IOException{
-<<<<<<< HEAD
-        Scanner scanner = new Scanner(new FileReader("C:\\Users\\daianerose\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
-=======
+//<<<<<<< HEAD
+  //      Scanner scanner = new Scanner(new FileReader("C:\\Users\\daianerose\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
+//=======
         Scanner scanner = new Scanner(new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
->>>>>>> d7cd231bbcf76cb2284b5207aecbc3da22c01096
+//>>>>>>> d7cd231bbcf76cb2284b5207aecbc3da22c01096
        
         while (scanner.hasNext()) {     
             this.identificadorPokemon = scanner.nextInt();
