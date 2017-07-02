@@ -17,6 +17,7 @@ public class AgentProlog {
     
     private int[][] matrizTerreno = new int[42][42];//matriz que receberá os valores referentes à localização dos terrenos
     private String[] vetorTerreno = {"grama", "agua", "montanha", "caverna", "vulcao"};
+    private Interface inter;
     
     public int[][] getMatrizTerreno() {
         return matrizTerreno;
@@ -26,10 +27,16 @@ public class AgentProlog {
         this.matrizTerreno = matrizTerreno;
     }
 
+    public AgentProlog(Interface inter){
+        this.inter = inter;
+    }
+    
     public void executarAgente(){
         String comando;
         Query execucaoComando;
         Map<String, Term> results;
+        int coordenadaX, coordenadaY, pontos, pokebolas, carga, totalPokemons, teste=0;
+        
         comando = "consult('controlesPoke.pl')";
         execucaoComando = new Query(comando);
         System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
@@ -38,22 +45,43 @@ public class AgentProlog {
         System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
         for(int i = 0; i<42; i++){
             for(int j= 0; j<42; j++){
-                comando = "armazenarTerrenos("+i+","+j+","+vetorTerreno[getMatrizTerreno()[i][j]]+")";
+                //comando = "armazenarTerrenos("+i+","+j+","+vetorTerreno[getMatrizTerreno()[i][j]]+")";
+                comando = "armazenarTerrenos("+j+","+i+","+vetorTerreno[inter.getRegras().getMatrizTerreno()[i][j]]+")";
                 execucaoComando = new Query(comando);
-                System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
+                System.out.print(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
+                execucaoComando.hasSolution();
             }
+            //System.out.println();
         }
-        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
-        execucaoComando = new Query(comando);
-        execucaoComando.hasMoreSolutions();
-        results = execucaoComando.nextSolution();
-        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
-       //-------
-        comando = "operacao(X,Y)";
-        execucaoComando = new Query(comando);
-        execucaoComando.hasMoreSolutions();
-       //-------  
-        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
+       while(teste<10){
+            comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
+            execucaoComando = new Query(comando);
+            execucaoComando.hasMoreSolutions();
+            results = execucaoComando.nextSolution();
+            System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
+            coordenadaX = Integer.parseInt(results.get("CoordenadaX").toString());
+            coordenadaY = Integer.parseInt(results.get("CoordenadaY").toString());
+            pontos = Integer.parseInt(results.get("Pontos").toString());
+            pokebolas = Integer.parseInt(results.get("Pokebolas").toString());
+            carga = Integer.parseInt(results.get("Carga").toString());
+            totalPokemons = Integer.parseInt(results.get("TotalPokemons").toString());
+            inter.repassarInterface(coordenadaX, coordenadaY, pontos, pokebolas, carga, totalPokemons);
+           
+            try {
+                Thread.sleep(1000);
+             } catch (Exception e) {
+                e.printStackTrace();
+             }
+            
+            //-------
+            comando = "operacao(X,Y)";
+            execucaoComando = new Query(comando);
+            execucaoComando.hasMoreSolutions();
+           //-------
+           teste++;
+       }
+       /*
+       comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
         execucaoComando = new Query(comando);
         execucaoComando.hasMoreSolutions();
         results = execucaoComando.nextSolution();
