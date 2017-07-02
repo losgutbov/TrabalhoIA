@@ -17,9 +17,15 @@
  terreno(montanha).
  terreno(caverna).
  terreno(vulcao).
+ %Tipos que dão acesso a outros terrenos
+ acesso(voo).
+ acesso(agua).
+ acesso(eletrico).
+ acesso(fogo).
+
  %A respeito dos Pokï¿½mons.
- % pokemon(NOME, CODIGO, TIPO).
- :-dynamic pokemon/3.
+ % pokemon(NOME, CODIGO, TIPO1, TIPO2, TIPO3, TIPO_TERRENO).
+ :-dynamic pokemon/6.
  %A respeito do MAPA.
  %mapa(COORDENADA_X, COORDENADA_Y, TIPO_TERRENO).
  :-dynamic mapa/3.
@@ -34,11 +40,21 @@
  :-dynamic totalPokemons/1.
 
 %Regras
+ %Para armazenar pokemons classificando por terreno.
+ classificaPokeTerreno(NOME,COD,agua,T2,T3,_):-acesso(agua), asserta(pokemon(NOME,COD,agua,T2,T3,agua)).
+ classificaPokeTerreno(NOME,COD,fogo,T2,T3,_):-acesso(fogo), asserta(pokemon(NOME,COD,fogo,T2,T3,vulcao)).
+ classificaPokeTerreno(NOME,COD,eletrico,T2,T3,_):-acesso(eletrico), asserta(pokemon(NOME,COD,eletrico,T2,T3,caverna)).
+ classificaPokeTerreno(NOME,COD,voo,T2,T3,_):-acesso(voo), asserta(pokemon(NOME,COD,voo,T2,T3,montanha)).
+ armazenaPoke(NOME,COD,T1,T2,T3,_):-assertz(pokemon(NOME,COD,T1,T2,T3,-)).
+ setarPokemon(NOME,COD,T1,T2,T3,_):-((classificaPokeTerreno(NOME,COD,T1,T2,T3,_),classificaPokeTerreno(NOME,COD,T2,T1,T3,_),classificaPokeTerreno(NOME,COD,T3,T2,T1,_));armazenaPoke(NOME,COD,T1,T2,T3,-)), incrementarPokemons.
+
+ incrementarPokemons:-totalPokemons(T), NOVOTOTAL is T +1, setarTotalPokemons(NOVOTOTAL).
+
 %Para caminhar sobre terreno.
- passar_por(X):-terreno(X), pokemon(_,_,X),!.
- possiveis_caminhos(X,Y):-pokemon(_,_,Z), mapa(X,Y,Z).
+ passar_por(X):-terreno(X), pokemon(_,_,_,_,_,X),!.
+ possiveis_caminhos(X,Y):-pokemon(_,_,_,_,_,Z), mapa(X,Y,Z).
  %Para passar por terrenos de acorodo com o pokemon.
- possiveis_caminhos_proximos(K,W):-coordenadas(X,Y), pokemon(_,_,Z), ((K is X, W is Y+1);(K is X, W is Y-1);(K is X+1, W is Y);(K is X-1, W is Y)), mapa(K,W,Z).
+ possiveis_caminhos_proximos(K,W):-coordenadas(X,Y), pokemon(_,_,_,_,_,Z), ((K is X, W is Y+1);(K is X, W is Y-1);(K is X+1, W is Y);(K is X-1, W is Y)), mapa(K,W,Z).
 % Para passar por terreno de grama sem pokemons ou os de grama.
  possiveis_caminhos_proximos(K,W):-coordenadas(X,Y),((K is X, W is Y+1);(K is X, W is Y-1);(K is X+1, W is Y);(K is X-1, W is Y)), mapa(K,W,grama).
 % Para verificar os caminhos segundo o sentido.
