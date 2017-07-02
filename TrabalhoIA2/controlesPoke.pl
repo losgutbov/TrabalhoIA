@@ -38,6 +38,8 @@
  :-dynamic energia/1.
  %Para saber a quantidade de Pokemons capturados.
  :-dynamic totalPokemons/1.
+ %Para a pontuação total.
+ :-dynamic pontos/1.
 
 %Regras
  %Para armazenar pokemons classificando por terreno.
@@ -46,9 +48,11 @@
  classificaPokeTerreno(NOME,COD,eletrico,T2,T3,_):-acesso(eletrico), asserta(pokemon(NOME,COD,eletrico,T2,T3,caverna)).
  classificaPokeTerreno(NOME,COD,voo,T2,T3,_):-acesso(voo), asserta(pokemon(NOME,COD,voo,T2,T3,montanha)).
  armazenaPoke(NOME,COD,T1,T2,T3,_):-assertz(pokemon(NOME,COD,T1,T2,T3,-)).
+ incrementarPokemons:-totalPokemons(T), NOVOTOTAL is T +1, setarTotalPokemons(NOVOTOTAL).
  setarPokemon(NOME,COD,T1,T2,T3,_):-((classificaPokeTerreno(NOME,COD,T1,T2,T3,_),classificaPokeTerreno(NOME,COD,T2,T1,T3,_),classificaPokeTerreno(NOME,COD,T3,T2,T1,_));armazenaPoke(NOME,COD,T1,T2,T3,-)), incrementarPokemons.
 
- incrementarPokemons:-totalPokemons(T), NOVOTOTAL is T +1, setarTotalPokemons(NOVOTOTAL).
+ %Para passar as informações para o java.
+ passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons):-coordenadas(CoordenadaX, CoordenadaY), pontos(Pontos), pokebolas(Pokebolas), energia(Carga), totalPokemons(TotalPokemons).
 
 %Para caminhar sobre terreno.
  passar_por(X):-terreno(X), pokemon(_,_,_,_,_,X),!.
@@ -100,7 +104,8 @@ estimuloAdjacentes(ouvirVendedor):-
  setarPokebolas(X):-asserta(pokebolas(X)).
  setarEnergia(Carga):-asserta(energia(Carga)).
  setarTotalPokemons(Quantidade):-asserta(totalPokemons(Quantidade)).
- inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25), setarEnergia(1), setarTotalPokemons(0).
+ setarPontos(Pontos):-asserta(pontos(Pontos)).
+ inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25), setarEnergia(1), setarTotalPokemons(0), setarPontos(0).
 %Para mudar as coordenadas.
  armazenaExplorado:-coordenadas(X,Y), asserta(mapaExplorado(X,Y)).
  limpaCoordenadas:-retractall(coordenadas(_,_)).
