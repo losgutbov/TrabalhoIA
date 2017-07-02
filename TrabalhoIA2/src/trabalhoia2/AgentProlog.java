@@ -5,12 +5,8 @@
  */
 package trabalhoia2;
 
-import java.io.FileReader;
-import java.io.IOException;
 import org.jpl7.Query;
-import java.util.Hashtable;
 import java.util.Map;
-import java.util.Scanner;
 import org.jpl7.Term;
 
 /**
@@ -31,8 +27,11 @@ public class AgentProlog {
     }
 
     public void executarAgente(){
-        String comando = "consult('controlesPoke.pl')";
-        Query execucaoComando = new Query(comando);
+        String comando;
+        Query execucaoComando;
+        Map<String, Term> results;
+        comando = "consult('controlesPoke.pl')";
+        execucaoComando = new Query(comando);
         System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
         comando = "inicializar";
         execucaoComando = new Query(comando);
@@ -44,11 +43,41 @@ public class AgentProlog {
                 System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
             }
         }
+        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
+        execucaoComando = new Query(comando);
+        execucaoComando.hasMoreSolutions();
+        results = execucaoComando.nextSolution();
+        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
+       //-------
         comando = "operacao(X,Y)";
         execucaoComando = new Query(comando);
         execucaoComando.hasMoreSolutions();
-        Map<String, Term> s4 = execucaoComando.nextSolution();
-        System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
+       //-------  
+        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
+        execucaoComando = new Query(comando);
+        execucaoComando.hasMoreSolutions();
+        results = execucaoComando.nextSolution();
+        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
+       //-------
+        comando = "operacao(X,Y)";
+        execucaoComando = new Query(comando);
+        execucaoComando.hasMoreSolutions();
+       //-------  
+        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
+        execucaoComando = new Query(comando);
+        execucaoComando.hasMoreSolutions();
+        results = execucaoComando.nextSolution();
+        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
+       //-------
+        comando = "operacao(X,Y)";
+        execucaoComando = new Query(comando);
+        execucaoComando.hasMoreSolutions();
+       //-------  
+        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
+        execucaoComando = new Query(comando);
+        execucaoComando.hasMoreSolutions();
+        results = execucaoComando.nextSolution();
+        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
         
         /*    
         while(execucaoComando.hasMoreSolutions()){
