@@ -25,7 +25,7 @@ public class TrabalhoIA {
         AgentProlog  agente = new AgentProlog(inter);
         inter.geraInterface();
         agente.executarAgente();
-        System.out.println(regra.getListaPokemons().get(86).stringToProlog());
+        //System.out.println(regra.getListaPokemons().get(0).stringToProlog());
         
     }
 }
