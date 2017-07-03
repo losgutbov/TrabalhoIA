@@ -63,10 +63,7 @@ public class Pokemon {
     }
     
     public String stringToProlog() {
-        for(int i=0; i<tipos.length; i++){
-            System.out.println(tipos[i]);
-        }
-        return ""+nome+","+identificador+","+tipos[0]+","+tipos[1]+","+tipos[2]+",-,-,-";
+        return nome+","+identificador+","+tipos[0]+","+tipos[1]+","+tipos[2];
     }
 }
 
