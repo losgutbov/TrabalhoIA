@@ -13,9 +13,17 @@ public class Pokemon {
     
     private String nome, descricao, tipo;
     private int identificador;
-   
+    private String tipos[];
 
     public Pokemon(){}
+
+    public String[] getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(String[] tipos) {
+        this.tipos = tipos;
+    }
     
     public int getIdentificador() {
         return identificador;
@@ -52,6 +60,13 @@ public class Pokemon {
     public String toString() {
         return "Identificador:" + identificador + "\n" + "Nome:" +nome + "\n" + "Descrição:" + descricao + 
         "\n" + "Tipo(s):" + tipo + "\n";
+    }
+    
+    public String stringToProlog() {
+        for(int i=0; i<tipos.length; i++){
+            System.out.println(tipos[i]);
+        }
+        return ""+nome+","+identificador+","+tipos[0]+","+tipos[1]+","+tipos[2]+",-,-,-";
     }
 }
 
