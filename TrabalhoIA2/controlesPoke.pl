@@ -50,17 +50,17 @@
 
 %Para receber as informações do terreno atual
 
+decidirAcao:-operacao.
 
-decidirAcao(NOMEPOKEMON,COD,TIPO1,TIPO2,TIPO3):-(COD > 0) -> capturar(NOMEPOKEMON,COD,TIPO1,TIPO2,TIPO3).
-decidirAcao(K,W):-operacao(K,W).
+decidirAcao(NOMEPOKEMON,COD,TIPO1,TIPO2,TIPO3):-(COD > 0) -> capturar(NOMEPOKEMON,COD,TIPO1,TIPO2,TIPO3),decidirAcao.
 
+decidirAcao(centro):-(elementosAmbiente(centro))->recarregarEnergia, decidirAcao.
+decidirAcao(loja):-(elementosAmbiente(loja))->recarregarPokebolas, decidirAcao.
+decidirAcao(treinador):-(elementosAmbiente(treinador))-> batalhar, decidirAcao.
 
-
- %decidirAcao(-,-,-,-,-,ESTI_CENTRO,-,-):-.
- %decidirAcao(-,-,-,-,-,-,ESTI_LOJA,-):-.
- %decidirAcao(-,-,-,-,-,-,-,ESTI_TREINADOR):-.
- %decidirAcao(0,0,0,0,0,0,0,0,K,W):-operacao(K,W).
- %recebeInformacoes(NOMEPOKEMON,COD,TIPO1,TIPO2,TIPO3,ESTI_CENTRO,ESTI_LOJA,ESTI_TREINADOR,K,W):-decidirAcao(NOMEPOKEMON,COD,TIPO1,TIPO2,TIPO3,ESTI_CENTRO,ESTI_LOJA,ESTI_TREINADOR,K,W).
+decidirAcao(gritoTreinador):-(estimulo(gritoTreinador))->decidirAcao.
+decidirAcao(perfumeJoy):-(estimulo(perfumeJoy))->decidirAcao.
+decidirAcao(ouvirVendedor):-(estimulo(ouvirVendedor))->decidirAcao.
 
 %Para armazenar pokemons classificando por terreno.
  classificaPokeTerreno(NOME,COD,agua,T2,T3,_):-acesso(agua), asserta(pokemon(NOME,COD,agua,T2,T3,agua)).
@@ -69,54 +69,113 @@ decidirAcao(K,W):-operacao(K,W).
  classificaPokeTerreno(NOME,COD,voo,T2,T3,_):-acesso(voo), asserta(pokemon(NOME,COD,voo,T2,T3,montanha)).
  armazenaPoke(NOME,COD,T1,T2,T3,_):-assertz(pokemon(NOME,COD,T1,T2,T3,-)).
  incrementarPokemons:-totalPokemons(T), NOVOTOTAL is T +1, setarTotalPokemons(NOVOTOTAL).
- setarPokemon(NOME,COD,T1,T2,T3,_):-((classificaPokeTerreno(NOME,COD,T1,T2,T3,_),classificaPokeTerreno(NOME,COD,T2,T1,T3,_),classificaPokeTerreno(NOME,COD,T3,T2,T1,_));armazenaPoke(NOME,COD,T1,T2,T3,-)), incrementarPokemons.
+ setarPokemon(NOME,COD,T1,T2,T3,_):-
+                   ((classificaPokeTerreno(NOME,COD,T1,T2,T3,_),
+                     classificaPokeTerreno(NOME,COD,T2,T1,T3,_),
+                     classificaPokeTerreno(NOME,COD,T3,T2,T1,_));
+                    armazenaPoke(NOME,COD,T1,T2,T3,-)),
+                   incrementarPokemons.
+%Para capturar pokemons.
+ capturar(NOME,COD,T1,T2,T3):-
+          pokebolas(W),(W>0),
+          setarPokemon(NOME,COD,T1,T2,T3,_),
+          (K is W-1),
+          setarPokebolas(K),
+          decrementarPontos(5).
 
  %Para passar as informaï¿½ï¿½es para o java.
- passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons):-coordenadas(CoordenadaX, CoordenadaY), pontos(Pontos), pokebolas(Pokebolas), energia(Carga), totalPokemons(TotalPokemons).
+ passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons,UltCapturado, Sentido):-
+                  coordenadas(CoordenadaX, CoordenadaY),
+                  pontos(Pontos),
+                  pokebolas(Pokebolas),
+                  energia(Carga),
+                  totalPokemons(TotalPokemons),
+                  pokemon(_,UltCapturado,_,_,_,_),
+                  sentido(Sentido).
 
 %Para caminhar sobre terreno.
  passar_por(X):-terreno(X), pokemon(_,_,_,_,_,X),!.
  possiveis_caminhos(X,Y):-pokemon(_,_,_,_,_,Z), mapa(X,Y,Z).
  %Para passar por terrenos de acorodo com o pokemon.
- possiveis_caminhos_proximos(K,W):-coordenadas(X,Y), pokemon(_,_,_,_,_,Z), ((K is X, W is Y+1);(K is X, W is Y-1);(K is X+1, W is Y);(K is X-1, W is Y)), mapa(K,W,Z).
+ possiveis_caminhos_proximos(K,W):-
+                 coordenadas(X,Y),
+                 pokemon(_,_,_,_,_,Z),
+                 ((K is X, W is Y+1);
+                  (K is X, W is Y-1);
+                  (K is X+1, W is Y);
+                  (K is X-1, W is Y)),
+                 mapa(K,W,Z).
 % Para passar por terreno de grama sem pokemons ou os de grama.
- possiveis_caminhos_proximos(K,W):-coordenadas(X,Y),((K is X, W is Y+1);(K is X, W is Y-1);(K is X+1, W is Y);(K is X-1, W is Y)), mapa(K,W,grama).
+ possiveis_caminhos_proximos(K,W):-
+                 coordenadas(X,Y),
+                 ((K is X, W is Y+1);
+                  (K is X, W is Y-1);
+                  (K is X+1, W is Y);
+                  (K is X-1, W is Y)),
+                 mapa(K,W,grama).
 % Para verificar os caminhos segundo o sentido.
  segue_sentido_direto(K,W,3):-coordenadas(X,Y),(K is X-1, W is Y).
  segue_sentido_direto(K,W,2):-coordenadas(X,Y),(K is X, W is Y+1).
  segue_sentido_direto(K,W,1):-coordenadas(X,Y),(K is X+1, W is Y).
  segue_sentido_direto(K,W,0):-coordenadas(X,Y),(K is X, W is Y-1).
- segue_sentido(K,W):-sentido(X), segue_sentido_direto(K,W,X), possiveis_caminhos_proximos(K,W).
+ segue_sentido(K,W):-
+         sentido(X),
+         segue_sentido_direto(K,W,X),
+         possiveis_caminhos_proximos(K,W).
 
- operacao(K,W):-segue_sentido(K,W),armazenaCoordenada(K,W),decrementarPontos(1).
- operacao(_,_):-coordenadas(X,Y),sentido(SO),possiveis_caminhos_proximos(K,W),sentidoDesejado(X,Y,K,W,SD,SO),verificarGiro(SO,SD),decrementarPontos(1).
+ operacao:-
+          segue_sentido(K,W),
+          armazenaCoordenada(K,W),
+          decrementarPontos(1).
+ operacao:-
+          coordenadas(X,Y),
+          sentido(SO),
+          possiveis_caminhos_proximos(K,W),
+          sentidoDesejado(X,Y,K,W,SD,SO),
+          verificarGiro(SO,SD),
+          decrementarPontos(1).
 
  quanto_falta(X,Y,Z,W):-coordenadas(A,B), Z is X-A, W is Y-B.
 
  planejar(X,Y):-coordenadas(X,Y).
 
-%Para capturar pokemons.
- capturar(NOME,COD,T1,T2,T3):-pokebolas(W),(W>0),setarPokemon(NOME,COD,T1,T2,T3,_), (K is W-1), setarPokebolas(K), decrementarPontos(5).
-
-
-/*
-estimuloAdjacentes(gritoTreinador):-
-estimuloAdjacentes(perfumeJoy):-
-estimuloAdjacentes(ouvirVendedor):-
-*/
-
-
-
 %Para recarregar pokebolas.
- recarregarPokebolas:-pokebolas(X), Z is X +25, setarPokebolas(Z), decrementarPontos(10).
+ recarregarPokebolas:-
+               pokebolas(X),
+               Z is X +25,
+               setarPokebolas(Z),
+               decrementarPontos(10).
 
 %Para recarregar energia dos Pokemons.
- recarregarEnergia:-energia(Carga), (Carga=\=1), setarEnergia(1),decrementarPontos(100).
+ recarregarEnergia:-
+                   energia(Carga),
+                   ((Carga=\=1)->
+                                setarEnergia(1),
+                                decrementarPontos(100)
+                   ).
 
 %Para batalhar
- batalha(GouP):-totalPokemons(Qtd), (Qtd>0), ((energia(Carga), Carga=:=1)->(GouP is 2);(GouP is 1)).
- batalha(GouP):-totalPokemons(Qtd), (Qtd=:=0)->GouP is 0;GouP is -1.
- batalhar:-batalha(GouP),(GouP>0)->((GouP>1)->incrementarPontos(150);decrementarPontos(1000)),setarEnergia(0).
+ batalha(GouP):-
+              totalPokemons(Qtd),
+              energia(Carga),
+              (Qtd>0)->
+                       ((Carga=:=1)->
+                                    (GouP is 2);
+                                    (GouP is 1)
+                       ).
+ batalha(GouP):-
+              totalPokemons(Qtd),
+              ((Qtd=:=0)->
+                        GouP is 0;
+                        GouP is -1
+              ).
+ batalhar:-
+          batalha(GouP),
+          (GouP>0)->
+                   ((GouP>1)->
+                             incrementarPontos(150);
+                             decrementarPontos(1000)),
+                    setarEnergia(0).
 
 %Condiï¿½ï¿½es iniciais.
  armazenarTerrenos(X,Y,Z):-limites(X,Y),asserta(mapa(X,Y,Z)).
@@ -128,7 +187,7 @@ estimuloAdjacentes(ouvirVendedor):-
  setarPontos(Pontos):-asserta(pontos(Pontos)).
  incrementarPontos(Incremento):-pontos(Pontos), NovosPontos is Incremento +Pontos, setarPontos(NovosPontos).
  decrementarPontos(Decremento):-pontos(Pontos), NovosPontos is Pontos - Decremento, setarPontos(NovosPontos).
- inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25), setarEnergia(1), setarTotalPokemons(0), setarPontos(0).
+ inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25), setarEnergia(1), setarTotalPokemons(0), setarPontos(0), armazenaPoke(pri,0,_,_,_,_).
 %Para mudar as coordenadas.
  armazenaExplorado:-coordenadas(X,Y), asserta(mapaExplorado(X,Y)).
  limpaCoordenadas:-retractall(coordenadas(_,_)).
