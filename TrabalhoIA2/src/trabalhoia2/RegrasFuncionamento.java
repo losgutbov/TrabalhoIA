@@ -1,15 +1,10 @@
 package trabalhoia2;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -298,35 +293,6 @@ public class RegrasFuncionamento {
             System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
         }
     }
-    
-   /* public void lerMatrizPokemon() throws FileNotFoundException, IOException{
-        
-
-        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt");
-
-//        FileReader txtMatriz = new FileReader(getClass().getResource("arquivos/matrizTerrenos.txt").toString());
-        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
-        int cont=0, i=0;
-        try{                        
-            while(lerTxt.hasNext()){
-                String[] a1 = lerTxt.next().split("|");
-                System.out.println(a1[0].toString());
-                System.out.println(a1[1].toString());
-                System.out.println(a1[2].toString());
-                pokemon = new Pokemon();
-                pokemon.setIdentificador(Integer.parseInt(a1[0]));
-                pokemon.setNome(a1[1]);
-                pokemon.setDescricao(a1[2]);
-                String[] a2 = a1[3].split(",");
-                System.out.println(a2[0]);
-                pokemon.setTipos(a2);
-                listaPokemons.add(pokemon);
-            
-            }                           
-        }catch(Exception IOException){
-            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
-        }
-    }*/
     
     public void lerInformacoesPokemon()throws FileNotFoundException, IOException{
 //<<<<<<< HEAD
