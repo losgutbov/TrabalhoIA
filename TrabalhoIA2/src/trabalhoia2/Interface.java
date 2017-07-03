@@ -42,7 +42,7 @@ public class Interface extends JFrame{
     
     //-----MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA----//
 
-    public void repassarInterface(int coordenadaX, int coordenadaY, int pontos, int pokebolas, int carga, int totalPokemons){
+    public void repassarInterface(int coordenadaX, int coordenadaY, int pontos, int pokebolas, int carga, int totalPokemons, int ult_capturado, int sentido){
         movimentar(coordenadaY,coordenadaX);
         this.pontos.setText(Integer.toString(pontos));
         this.pokebolas.setText(Integer.toString(pokebolas));
@@ -51,45 +51,56 @@ public class Interface extends JFrame{
         }else{
             this.carga.setText("Baixa");
         }
-        
+        //ult_capturado;
+        //sentido;
     } 
     
     //---FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA--//    
 
     //---------MÉTODO PARA REPASSAR AS INFORMAÇÕES DO JAVA PARA O PROLOG---------//
     
-    public void elementosDaCasa(){
+    public String elementosDaCasa(){
         int i = regras.getPosicaoAtual()[0], j = regras.getPosicaoAtual()[1];
         int ele = regras.getMatrizElementos()[i][j];
+        System.out.println("Switch "+ele);
+        String comando = "decidirAcao";
         switch(ele){
             case 0:
                 System.out.println("Nada");
+                comando="decidirAcao";
                 break;
             case CENTRO:
                 System.out.println("Centro");                
+                comando="decidirAcao(centro)";
                 break;
             case LOJA:
-                System.out.println("Loja");                
+                System.out.println("Loja");               
+                comando="decidirAcao(loja)";                
                 break;   
             case TREINADOR:
-                System.out.println("Treinador");                
+                System.out.println("Treinador");               
+                comando="decidirAcao(treinador)";                
                 break;
             case PERFUME:
-                System.out.println("Perfume");                
+                System.out.println("Perfume");               
+                comando="decidirAcao(perfumeJoy)";
                 break;
             case PROPAGANDA_BOLAS:
                 System.out.println("Propaganda Bolas");                
+                comando="decidirAcao(ouvirVendedor)";
                 break;
             case DESAFIO:
-                System.out.println("Desafio");                
+                System.out.println("Desafio");  
+                comando="decidirAcao(gritoTreinador)";
                 break;
             default:
                 if(ele>=1 && ele<=150){
                     System.out.println("Pokemon: "+ele);  
-                    System.out.println(regras.getListaPokemons().get(ele).stringToProlog());
+                    comando="decidirAcao("+regras.getListaPokemons().get(ele-1).stringToProlog()+")";
                 }
                 break;
         }
+        return comando;
     }
     
     //-----FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO JAVA PARA O PROLOG---------//
