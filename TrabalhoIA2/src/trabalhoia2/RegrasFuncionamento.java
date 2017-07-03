@@ -299,6 +299,35 @@ public class RegrasFuncionamento {
         }
     }
     
+   /* public void lerMatrizPokemon() throws FileNotFoundException, IOException{
+        
+
+        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt");
+
+//        FileReader txtMatriz = new FileReader(getClass().getResource("arquivos/matrizTerrenos.txt").toString());
+        Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
+        int cont=0, i=0;
+        try{                        
+            while(lerTxt.hasNext()){
+                String[] a1 = lerTxt.next().split("|");
+                System.out.println(a1[0].toString());
+                System.out.println(a1[1].toString());
+                System.out.println(a1[2].toString());
+                pokemon = new Pokemon();
+                pokemon.setIdentificador(Integer.parseInt(a1[0]));
+                pokemon.setNome(a1[1]);
+                pokemon.setDescricao(a1[2]);
+                String[] a2 = a1[3].split(",");
+                System.out.println(a2[0]);
+                pokemon.setTipos(a2);
+                listaPokemons.add(pokemon);
+            
+            }                           
+        }catch(Exception IOException){
+            System.err.printf("Erro na abertura do arquivo: %s.\n",IOException.getMessage());
+        }
+    }*/
+    
     public void lerInformacoesPokemon()throws FileNotFoundException, IOException{
 //<<<<<<< HEAD
   //      Scanner scanner = new Scanner(new FileReader("C:\\Users\\daianerose\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
@@ -316,6 +345,8 @@ public class RegrasFuncionamento {
             pokemon.setNome(this.nomePokemon);
             pokemon.setDescricao(this.descricaoPokemon);
             pokemon.setTipo(this.tipoPokemon);
+            String a1[] = this.tipoPokemon.split(",");
+            pokemon.setTipos(a1);
             listaPokemons.add(pokemon);
             pokemon = new Pokemon();
         }
@@ -334,6 +365,10 @@ public class RegrasFuncionamento {
                 System.out.println(listaPokemons.get(i).toString());
             }
         }
+    }
+    
+    public String pokemonsParaProlog(int identPokemonCapturado){
+        return listaPokemons.get(identPokemonCapturado).stringToProlog(); 
     }
     
     public void pokedexInformacao (int identPokemon){
