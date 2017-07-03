@@ -45,15 +45,13 @@ public class AgentProlog {
         System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
         for(int i = 0; i<42; i++){
             for(int j= 0; j<42; j++){
-                //comando = "armazenarTerrenos("+i+","+j+","+vetorTerreno[getMatrizTerreno()[i][j]]+")";
                 comando = "armazenarTerrenos("+j+","+i+","+vetorTerreno[inter.getRegras().getMatrizTerreno()[i][j]]+")";
                 execucaoComando = new Query(comando);
                 System.out.print(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
                 execucaoComando.hasSolution();
             }
-            //System.out.println();
         }
-       while(teste<10){
+       while(teste<30){
             comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
             execucaoComando = new Query(comando);
             execucaoComando.hasMoreSolutions();
@@ -72,6 +70,8 @@ public class AgentProlog {
              } catch (Exception e) {
                 e.printStackTrace();
              }
+           
+            inter.elementosDaCasa();
             
             //-------
             comando = "operacao(X,Y)";
@@ -79,61 +79,7 @@ public class AgentProlog {
             execucaoComando.hasMoreSolutions();
            //-------
            teste++;
+           
        }
-       /*
-       comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
-        execucaoComando = new Query(comando);
-        execucaoComando.hasMoreSolutions();
-        results = execucaoComando.nextSolution();
-        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
-       //-------
-        comando = "operacao(X,Y)";
-        execucaoComando = new Query(comando);
-        execucaoComando.hasMoreSolutions();
-       //-------  
-        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
-        execucaoComando = new Query(comando);
-        execucaoComando.hasMoreSolutions();
-        results = execucaoComando.nextSolution();
-        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
-       //-------
-        comando = "operacao(X,Y)";
-        execucaoComando = new Query(comando);
-        execucaoComando.hasMoreSolutions();
-       //-------  
-        comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
-        execucaoComando = new Query(comando);
-        execucaoComando.hasMoreSolutions();
-        results = execucaoComando.nextSolution();
-        System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
-        
-        /*    
-        while(execucaoComando.hasMoreSolutions()){
-            Map<String, Term> s4 = execucaoComando.nextSolution();
-            System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
-        }
-        //System.out.println(comando + " " + (execucaoComando.getSolution().get("K").toString())+" "+execucaoComando.getSolution().get("W").toString());
-        //*/
     }
-    
-    public static void main(String args[]){
-        
-        //Alterar para o arquivo controlesPoke.pl.
-        
-        String t1 = "consult('teste.pl')";
-        Query q1 = new Query(t1);
-        System.out.println(t1 + " " + (q1.hasSolution() ? "correto" : "falhou"));
-        String t2 = "pai(lima,rodrigo)";
-        Query q2 = new Query(t2);
-        System.out.println(t2 + " " + (q2.hasSolution() ? "correto" : "falhou"));
-        String t3 = "pai(X,Y)";
-        Query q3 = new Query(t3);
-        System.out.println(t3 + " " + (q3.hasSolution() ? "correto" : "falhou"));
-        while(q3.hasMoreSolutions()){
-            Map<String, Term> s4 = q3.nextSolution();
-            System.out.println("X " + s4.get("X") + ", Y " + s4.get("Y"));
-        
-        }
-    }
-    
 }
