@@ -35,7 +35,7 @@ public class AgentProlog {
         String comando;
         Query execucaoComando;
         Map<String, Term> results;
-        int coordenadaX, coordenadaY, pontos, pokebolas, carga, totalPokemons, teste=0;
+        int coordenadaX, coordenadaY, pontos, pokebolas, carga, totalPokemons, ult_capturado, sentido, teste=0;
         
         comando = "consult('controlesPoke.pl')";
         execucaoComando = new Query(comando);
@@ -47,23 +47,25 @@ public class AgentProlog {
             for(int j= 0; j<42; j++){
                 comando = "armazenarTerrenos("+j+","+i+","+vetorTerreno[inter.getRegras().getMatrizTerreno()[i][j]]+")";
                 execucaoComando = new Query(comando);
-                System.out.print(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
+                System.out.println(comando + " " + (execucaoComando.hasSolution() ? "correto" : "falhou"));
                 execucaoComando.hasSolution();
             }
         }
        while(teste<30){
-            comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons)";
+            comando = "passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons, UltCapturado, Sentido)";
             execucaoComando = new Query(comando);
             execucaoComando.hasMoreSolutions();
             results = execucaoComando.nextSolution();
-            System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons"));
+            System.out.println("CoordenadaX " + results.get("CoordenadaX") + ", CoordenadaY " + results.get("CoordenadaY")+", Pontos "+ results.get("Pontos")+", Pokebolas "+ results.get("Pokebolas")+", Carga "+ results.get("Carga")+", TotalPokemons "+ results.get("TotalPokemons")+" Último Pokemon Capturado "+results.get("UltCapturado")+" Sentido "+results.get("Sentido"));
             coordenadaX = Integer.parseInt(results.get("CoordenadaX").toString());
             coordenadaY = Integer.parseInt(results.get("CoordenadaY").toString());
             pontos = Integer.parseInt(results.get("Pontos").toString());
             pokebolas = Integer.parseInt(results.get("Pokebolas").toString());
             carga = Integer.parseInt(results.get("Carga").toString());
             totalPokemons = Integer.parseInt(results.get("TotalPokemons").toString());
-            inter.repassarInterface(coordenadaX, coordenadaY, pontos, pokebolas, carga, totalPokemons);
+            ult_capturado = Integer.parseInt(results.get("UltCapturado").toString());
+            sentido = Integer.parseInt(results.get("Sentido").toString());
+            inter.repassarInterface(coordenadaX, coordenadaY, pontos, pokebolas, carga, totalPokemons, ult_capturado, sentido);
            
             try {
                 Thread.sleep(1000);
@@ -71,10 +73,11 @@ public class AgentProlog {
                 e.printStackTrace();
              }
            
-            inter.elementosDaCasa();
+            System.out.println(inter.elementosDaCasa());
             
             //-------
-            comando = "operacao(X,Y)";
+            //comando = "operacao";
+            comando = inter.elementosDaCasa();
             execucaoComando = new Query(comando);
             execucaoComando.hasMoreSolutions();
            //-------
