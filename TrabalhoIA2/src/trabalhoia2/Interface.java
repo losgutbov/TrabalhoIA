@@ -31,6 +31,14 @@ public class Interface extends JFrame{
     private JButton esquerda, direita, avanca, volta, lancaPokebola;
     private JLabel pontos = new JLabel(), pokebolas = new JLabel(), carga = new JLabel();
     private RegrasFuncionamento regras;
+   
+    final int CENTRO = 152;
+    final int LOJA = 153;
+    final int TREINADOR = 154;
+
+    final int PERFUME = 155;    
+    final int PROPAGANDA_BOLAS = 156;
+    final int DESAFIO = 157;
     
     //-----MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA----//
 
@@ -47,6 +55,44 @@ public class Interface extends JFrame{
     } 
     
     //---FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA--//    
+
+    //---------MÉTODO PARA REPASSAR AS INFORMAÇÕES DO JAVA PARA O PROLOG---------//
+    
+    public void elementosDaCasa(){
+        int i = regras.getPosicaoAtual()[0], j = regras.getPosicaoAtual()[1];
+        int ele = regras.getMatrizElementos()[i][j];
+        switch(ele){
+            case 0:
+                System.out.println("Nada");
+                break;
+            case CENTRO:
+                System.out.println("Centro");                
+                break;
+            case LOJA:
+                System.out.println("Loja");                
+                break;   
+            case TREINADOR:
+                System.out.println("Treinador");                
+                break;
+            case PERFUME:
+                System.out.println("Perfume");                
+                break;
+            case PROPAGANDA_BOLAS:
+                System.out.println("Propaganda Bolas");                
+                break;
+            case DESAFIO:
+                System.out.println("Desafio");                
+                break;
+            default:
+                if(ele>=1 && ele<=150){
+                    System.out.println("Pokemon: "+ele);  
+                    System.out.println(regras.getListaPokemons().get(ele).stringToProlog());
+                }
+                break;
+        }
+    }
+    
+    //-----FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO JAVA PARA O PROLOG---------//
     
     //-------------------------MÉTODOS GET E SET---------------------------------//
     
@@ -162,7 +208,7 @@ public class Interface extends JFrame{
     }
     
     private ImageIcon definePokemon(int numPok){
-        ImageIcon pokemon = new ImageIcon(getClass().getResource("imagens/pokemons/"+numPok+".png"));
+        ImageIcon pokemon = new ImageIcon(getClass().getResource("imagens/pokemons/"+numPok+"MS.png"));
         return pokemon;
     }
     //--------------------FIM MÉTODOS DE DEFINIÇÃO DE ÍCONES----------------------------//
@@ -213,7 +259,7 @@ public class Interface extends JFrame{
     public void introduzPokemons(int lin, int col){
         for(int i=0; i<lin; i++){
             for(int j=0; j<col; j++){
-                if((regras.getMatrizElementos()[i][j]>0) && (regras.getMatrizElementos()[i][j]<41)){
+                if((regras.getMatrizElementos()[i][j]>0) && (regras.getMatrizElementos()[i][j]<151)){
                     JLabel pokemon = new JLabel(definePokemon(regras.getMatrizElementos()[i][j]));
                     pokemon.setBounds(terrenos.get((i*42)+j).getBounds());
                     this.mapa.add(pokemon);
