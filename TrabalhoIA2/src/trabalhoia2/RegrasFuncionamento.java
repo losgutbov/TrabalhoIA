@@ -25,7 +25,7 @@ public class RegrasFuncionamento {
     private ArrayList<Pokemon> listaPokemons = new ArrayList<Pokemon>();
     private Pokemon pokemon = new Pokemon();
 
-// final garante que o valor nao sera modificado
+// FINAL GARANTE QUE OS VALORES NÃO SERÃO MODIFICADOS. 
     final int ZERO = 0;
     final int CENTRO = 152;
     final int LOJA = 153;
@@ -50,7 +50,8 @@ public class RegrasFuncionamento {
     final int RECPOKEMON = -100;
     final int GANHARBATALHA = 150;
     final int PERDERBATALHA = -1000;    
-        
+     
+    //-------------------------MÉTODOS GET E SET---------------------------------//
     public RegrasFuncionamento() {
     }
 
@@ -112,6 +113,7 @@ public class RegrasFuncionamento {
     public void adicionarCustoPontuacao(int acao){
         this.setPontuacao(this.getPontuacao()+acao);
     }
+    //-------------------------FIM MÉTODOS GET E SET---------------------------------//
     
     public int[] determinarMovimento(){
         int[] coordenadasNovas = new int[2];
@@ -146,6 +148,7 @@ public class RegrasFuncionamento {
         return coordenadasNovas;
     }
     
+    //MÉTODO QUE ZERA TODAS AS POSIÇÕES DA MATRIZ. DETERMINA SE É POSSIVEL COLOCAR ALGUM ELEMENTO NA POSIÇÃO CASO SEJA ZERO. 
     public void zerarElementos(){
         for(int i = 0; i < matrizElementos.length; i++){
             for(int j=0; j < matrizElementos.length; j++){
@@ -154,6 +157,7 @@ public class RegrasFuncionamento {
         }          
     }
     
+    //MÉTODO DE IMPRESSÃO DA MATRIZ
     public void imprimirMatriz(){ 
         for(int i = 0; i < matrizElementos.length; i++){
             for(int j=0; j < matrizElementos.length; j++){
@@ -162,7 +166,8 @@ public class RegrasFuncionamento {
             System.out.println(" ");
          }          
     }
-        
+    
+    //MÉTODO DE INICIALIZAÇÃO DO AGENTE COM O SEU SENTIDO. 
     private void iniciarAgente(){
         //19 linhas 24 colunas
         this.matrizElementos[19][24]=AGENTE;
@@ -170,6 +175,7 @@ public class RegrasFuncionamento {
         this.setSentido(BAIXO);
     }
     
+    //MÉTODO QUE SORTEIA OS POKEMONS NO MAPA
     private void sortearPokemon(){
        Random gerador = new Random();
        int rand = 0;
@@ -191,6 +197,7 @@ public class RegrasFuncionamento {
        }
    }
 
+    //MÉTODO QUE SORTEIA OS CENTROS POKEMONS DENTRO DO MAPA
     private void sortearCentro(){   
         Random gerador = new Random();
         
@@ -203,6 +210,7 @@ public class RegrasFuncionamento {
        }          
     }
     
+    //MÉTODO QUE SORTEIA AS LOJAS DENTRO DO MAPA
     private void sortearLoja(){   
         Random gerador = new Random();
 
@@ -215,6 +223,7 @@ public class RegrasFuncionamento {
        }          
     }
     
+    //MÉTODO QUE SORTEIA OS TREINADORES DENTRO DO MAPA
     private void sortearTreinador(){   
         Random gerador = new Random();
 
@@ -227,6 +236,7 @@ public class RegrasFuncionamento {
        }          
     }
 
+    //MÉTODO QUE ADICIONA OS ESTIMULOS 
     private void adicionarEstimulo(int estimulo, int posiI, int posiJ){
         if((posiI!=0)&&(matrizElementos[posiI-1][posiJ]==0)){
             matrizElementos[posiI-1][posiJ] = estimulo;
@@ -242,6 +252,7 @@ public class RegrasFuncionamento {
         }
     }
     
+    //MÉTODO QUE VARRE A MATRIZ DE SENSORES E CHAMA O MEDODO PARA ADICONAR O ESTIMULO DE ACORDO COM O SENSOR.
     private void varrerMatrizParaSensores(){
         for(int i = 0; i<matrizElementos.length; i++){
             for(int j=0; j<matrizElementos.length; j++){
@@ -262,6 +273,7 @@ public class RegrasFuncionamento {
         }        
     }
     
+    //MÉTODO UTILIZADO PARA CHAMAR TODOS OS ELMENTOS DO MAPA
     public void sortearTudo(){
         this.zerarElementos();
         this.iniciarAgente();
@@ -271,14 +283,11 @@ public class RegrasFuncionamento {
         this.sortearTreinador();
         this.varrerMatrizParaSensores();
     }
-   
-    //método para ler arquivo txt para preencher a matriz com os terrenos especificos
+
+    //MÉTODO PARA LER ARQUIVO TXT PARA PREENCHER A MATRIZ COM OS TERRENOS ESPECÍFICOS
     public void lerMatrizTerreno() throws FileNotFoundException, IOException{
-        
-
-        FileReader txtMatriz = new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\matrizTerrenos.txt");
-
-//        FileReader txtMatriz = new FileReader(getClass().getResource("arquivos/matrizTerrenos.txt").toString());
+       FileReader txtMatriz = new FileReader("C:\\Users\\Thamires\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\matrizTerrenos.txt");
+        //FileReader txtMatriz = new FileReader(getClass().getResource("arquivos/matrizTerrenos.txt").toString());
         Scanner lerTxt =  new Scanner(txtMatriz).useDelimiter("\n");
         int cont=0, i=0;
         try{                        
@@ -294,13 +303,9 @@ public class RegrasFuncionamento {
         }
     }
     
+    //MÉTODO PARA LER ARQUIVO TXT QUE ADICIONA POKEMONS A LISTA DE POKEMONS COM SUAS RESPECITIVAS INFORMAÇÕES
     public void lerInformacoesPokemon()throws FileNotFoundException, IOException{
-//<<<<<<< HEAD
-  //      Scanner scanner = new Scanner(new FileReader("C:\\Users\\daianerose\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
-//=======
-        Scanner scanner = new Scanner(new FileReader("C:\\Users\\Augusto\\Documents\\NetBeansProjects\\TrabalhoIA2-comum\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");
-//>>>>>>> d7cd231bbcf76cb2284b5207aecbc3da22c01096
-       
+        Scanner scanner = new Scanner(new FileReader("C:\\Users\\Thamires\\Documents\\NetBeansProjects\\TrabalhoIA2\\TrabalhoIA2\\src\\trabalhoia2\\arquivos\\pokemon.txt")).useDelimiter("\\||\\n");       
         while (scanner.hasNext()) {     
             this.identificadorPokemon = scanner.nextInt();
             this.nomePokemon = scanner.next();
@@ -319,12 +324,14 @@ public class RegrasFuncionamento {
         scanner.close();
     }
     
+    //MÉTODO PARA IMPRIMIR LISTA DE POKEMONS COM SUAS INFORMAÇÕES
     public void imprimirListaPokemons(){
         for (int i = 0; i < listaPokemons.size(); i++) {
             System.out.println(listaPokemons.get(i).toString());
         }
     }
     
+    //MÉTODO QUE PESQUISA UM POKEMON DA LISTA DE POKEMONS. 
     public void pesquisarElementoListaPokemons(int identPokemonCapturado){
         for(int i=0; i < listaPokemons.size(); i++){
             if(listaPokemons.get(i).getIdentificador()== identPokemonCapturado){
@@ -333,18 +340,18 @@ public class RegrasFuncionamento {
         }
     }
     
+    //MÉTODO QUE RETORNA A INFORMAÇÃO DO POKEMON PARA O PROLOG
     public String pokemonsParaProlog(int identPokemonCapturado){
         return listaPokemons.get(identPokemonCapturado).stringToProlog(); 
     }
     
+    //MÉTODO PARA EXIBIR AS INFORMAÇÕES DO POKEMON ATRAVÉS DA POKEDEX
     public void pokedexInformacao (int identPokemon){
         for(int i=0; i < listaPokemons.size(); i++){
             if(listaPokemons.get(i).getIdentificador()== identPokemon){
-                System.out.println("Identificador:" + listaPokemons.get(i).getIdentificador());
-                System.out.println("Nome:" + listaPokemons.get(i).getNome());
+                System.out.println(listaPokemons.get(i).toString());
             }
         }
     }
     
 }
-
