@@ -34,7 +34,7 @@ public class Interface extends JFrame{
     private ImageIcon[] tipoter = new ImageIcon[5]; 
     private ImageIcon[] tipoAvat = new ImageIcon[5]; 
     private JButton esquerda, direita, avanca, volta, lancaPokebola;
-    private JLabel pontos = new JLabel(), pokebolas = new JLabel(), carga = new JLabel();
+    private JLabel pontos = new JLabel(), pokebolas = new JLabel(), carga = new JLabel(), sentido = new JLabel();
     private RegrasFuncionamento regras;
    
     //OS CENTROS, LOJAS, TREINADORES E ESTIMULOS POSSUEM IDENTIFICADORES FIXOS.
@@ -56,8 +56,25 @@ public class Interface extends JFrame{
         }else{
             this.carga.setText("Baixa");
         }
+        switch (sentido) {
+            case 0:
+                this.sentido.setText("Norte");
+                break;
+            case 1:
+                this.sentido.setText("Leste");
+                break;
+            case 2:
+                this.sentido.setText("Sul");
+                break;
+            default:
+                if(sentido==2){
+                    this.sentido.setText("Oeste");
+                    break; 
+                } 
+        }
+        
         //ult_capturado;
-        //sentido;
+        
     } 
     //---FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA--//    
 
@@ -357,6 +374,7 @@ public class Interface extends JFrame{
         JLabel tagPontos = new JLabel("Pontos: ");
         JLabel tagPokebolas = new JLabel("Pokébolas: ");
         JLabel tagCarga = new JLabel("Carga: ");
+        JLabel tagSentido = new JLabel("Sentido: ");
         
         painelInfo.setSize(610, 350);
         painelInfo.setLocation(painelInfo.getSize().width + 115, painelInfo.getSize().height - 300);
@@ -364,23 +382,29 @@ public class Interface extends JFrame{
         painelInfo.setLayout(null);
         tagPontos.setBounds(25, 10, 120, 25);
         tagPontos.setForeground(Color.red);
-        tagPontos.setFont(new Font("Dialog", Font.PLAIN, 30));
-        tagPokebolas.setBounds(225, 10, 160, 25);
+        tagPontos.setFont(new Font("Dialog", Font.PLAIN, 20));
+        tagPokebolas.setBounds(150, 10, 160, 25);
         tagPokebolas.setForeground(Color.red);
-        tagPokebolas.setFont(new Font("Dialog", Font.PLAIN, 30));
-        tagCarga.setBounds(425, 5, 100, 35);
+        tagPokebolas.setFont(new Font("Dialog", Font.PLAIN, 20));
+        tagCarga.setBounds(280, 5, 100, 35);
         tagCarga.setForeground(Color.red);
-        tagCarga.setFont(new Font("Dialog", Font.PLAIN, 30));
+        tagCarga.setFont(new Font("Dialog", Font.PLAIN, 20));
+        tagSentido.setBounds(400, 10, 100, 25);
+        tagSentido.setForeground(Color.red);
+        tagSentido.setFont(new Font("Dialog", Font.PLAIN, 20));
         pontos.setText("0");
-        pontos.setBounds(130, 10, 120, 25);
+        pontos.setBounds(100, 10, 120, 25);
         pontos.setForeground(Color.red);
-        pontos.setFont(new Font("Dialog", Font.PLAIN, 30));
-        pokebolas.setBounds(375, 10, 120, 25);
+        pontos.setFont(new Font("Dialog", Font.PLAIN, 20));
+        pokebolas.setBounds(250, 10, 120, 25);
         pokebolas.setForeground(Color.red);
-        pokebolas.setFont(new Font("Dialog", Font.PLAIN, 30));
-        carga.setBounds(520, 10, 120, 25);
+        pokebolas.setFont(new Font("Dialog", Font.PLAIN, 20));
+        carga.setBounds(345, 10, 120, 25);
         carga.setForeground(Color.red);
-        carga.setFont(new Font("Dialog", Font.PLAIN, 30));
+        carga.setFont(new Font("Dialog", Font.PLAIN, 20));
+        sentido.setBounds(480, 10, 120, 25);
+        sentido.setForeground(Color.red);
+        sentido.setFont(new Font("Dialog", Font.PLAIN, 20));
         painelAtual.setSize(560, 150);
         painelAtual.setLocation(25, 50);
         painelAtual.setBackground(Color.black);
@@ -392,9 +416,11 @@ public class Interface extends JFrame{
         painelInfo.add(tagPontos);
         painelInfo.add(tagPokebolas);
         painelInfo.add(tagCarga);
+        painelInfo.add(tagSentido);
         painelInfo.add(pontos);
         painelInfo.add(pokebolas);
         painelInfo.add(carga);
+        painelInfo.add(sentido);
         painelInfo.add(painelAtual);
         setIndexPainelAtual(painelInfo.getComponentZOrder(painelAtual));
         painelInfo.add(painelLog);
