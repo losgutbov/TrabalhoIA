@@ -1,7 +1,6 @@
 %Primeiros Controles do Jogo Pokï¿½mon
 %Trabalho de IA
-%Referï¿½ncias: https://pt.wikibooks.org/wiki/Prolog/Matem%C3%A1tica
-
+%Equipe: Augusto, Daiane, Stephanie e Thamires.
 %Conhecimentos
  %Para movimentar.
  :-dynamic coordenadas/2.
@@ -23,10 +22,10 @@
  terreno(caverna).
  terreno(vulcao).
  %Tipos que dï¿½o acesso a outros terrenos
- acesso(voo).
- acesso(agua).
- acesso(eletrico).
- acesso(fogo).
+ acesso('voo').
+ acesso('agua').
+ acesso('eletrico').
+ acesso('fogo').
 
  %A respeito dos Pokï¿½mons.
  % pokemon(NOME, CODIGO, TIPO1, TIPO2, TIPO3, TIPO_TERRENO).
@@ -48,7 +47,7 @@
 
 %Regras
 
-%Para receber as informações do terreno atual
+%Para receber as informaï¿½ï¿½es do terreno atual
 
 decidirAcao:-operacao.
 
@@ -63,25 +62,35 @@ decidirAcao(perfumeJoy):-(estimulo(perfumeJoy))->decidirAcao.
 decidirAcao(ouvirVendedor):-(estimulo(ouvirVendedor))->decidirAcao.
 
 %Para armazenar pokemons classificando por terreno.
- classificaPokeTerreno(NOME,COD,agua,T2,T3,_):-acesso(agua), asserta(pokemon(NOME,COD,agua,T2,T3,agua)).
- classificaPokeTerreno(NOME,COD,fogo,T2,T3,_):-acesso(fogo), asserta(pokemon(NOME,COD,fogo,T2,T3,vulcao)).
- classificaPokeTerreno(NOME,COD,eletrico,T2,T3,_):-acesso(eletrico), asserta(pokemon(NOME,COD,eletrico,T2,T3,caverna)).
- classificaPokeTerreno(NOME,COD,voo,T2,T3,_):-acesso(voo), asserta(pokemon(NOME,COD,voo,T2,T3,montanha)).
- armazenaPoke(NOME,COD,T1,T2,T3,_):-assertz(pokemon(NOME,COD,T1,T2,T3,-)).
+ %classificaPokeTerreno(NOME,COD,fogo,T2,T3):-(acesso(fogo))->(asserta(pokemon(NOME,COD,fogo,T2,T3,vulcao))).
+ classificaPokeTerreno(NOME,COD,T1,T2,T3):-(acesso(T1),T1='fogo')->(asserta(pokemon(NOME,COD,fogo,T2,T3,vulcao))).
+ %classificaPokeTerreno(NOME,COD,agua,T2,T3):-(acesso(agua))->(asserta(pokemon(NOME,COD,agua,T2,T3,agua))).
+ classificaPokeTerreno(NOME,COD,T1,T2,T3):-(acesso(T1),T1='agua')->(asserta(pokemon(NOME,COD,agua,T2,T3,agua))).
+ %classificaPokeTerreno(NOME,COD,eletrico,T2,T3):-(acesso(eletrico))->(asserta(pokemon(NOME,COD,eletrico,T2,T3,caverna))).
+ classificaPokeTerreno(NOME,COD,T1,T2,T3):-(acesso(T1),T1='eletrico')->(asserta(pokemon(NOME,COD,eletrico,T2,T3,caverna))).
+ %classificaPokeTerreno(NOME,COD,voo,T2,T3):-(acesso(voo))->(asserta(pokemon(NOME,COD,voo,T2,T3,montanha))).
+ classificaPokeTerreno(NOME,COD,T1,T2,T3):-(acesso(T1),T1='voo')->(asserta(pokemon(NOME,COD,voo,T2,T3,montanha))).
+ armazenaPoke(NOME,COD,T1,T2,T3):-
+                                   ((acesso(T1)),(acesso(T2)),(acesso(T3)))->
+                                                                            (pokemon(_,_,_,_,_,_));
+                                                                            (assertz(pokemon(NOME,COD,T1,T2,T3,-))).
  incrementarPokemons:-totalPokemons(T), NOVOTOTAL is T +1, setarTotalPokemons(NOVOTOTAL).
- setarPokemon(NOME,COD,T1,T2,T3,_):-
-                   ((classificaPokeTerreno(NOME,COD,T1,T2,T3,_),
-                     classificaPokeTerreno(NOME,COD,T2,T1,T3,_),
-                     classificaPokeTerreno(NOME,COD,T3,T2,T1,_));
-                    armazenaPoke(NOME,COD,T1,T2,T3,-)),
-                   incrementarPokemons.
+
+ setarPokemon(NOME,COD,T1,T2,T3):-
+                                 ((classificaPokeTerreno(NOME,COD,T1,T2,T3);
+                                   classificaPokeTerreno(NOME,COD,T2,T1,T3);
+                                   classificaPokeTerreno(NOME,COD,T3,T2,T1));
+                                   armazenaPoke(NOME,COD,T1,T2,T3)),
+                                 incrementarPokemons.
+
 %Para capturar pokemons.
  capturar(NOME,COD,T1,T2,T3):-
           pokebolas(W),(W>0),
-          setarPokemon(NOME,COD,T1,T2,T3,_),
+          setarPokemon(NOME,COD,T1,T2,T3),
           (K is W-1),
           setarPokebolas(K),
           decrementarPontos(5).
+
 
  %Para passar as informaï¿½ï¿½es para o java.
  passarInformacoes(CoordenadaX, CoordenadaY, Pontos, Pokebolas, Carga, TotalPokemons,UltCapturado, Sentido):-
@@ -171,11 +180,13 @@ decidirAcao(ouvirVendedor):-(estimulo(ouvirVendedor))->decidirAcao.
               ).
  batalhar:-
           batalha(GouP),
-          (GouP>0)->
-                   ((GouP>1)->
+          ((GouP>0)->
+                   (((GouP>1)->
                              incrementarPontos(150);
                              decrementarPontos(1000)),
-                    setarEnergia(0).
+                     setarEnergia(0)
+                   );
+                   (pontos(_))).
 
 %Condiï¿½ï¿½es iniciais.
  armazenarTerrenos(X,Y,Z):-limites(X,Y),asserta(mapa(X,Y,Z)).
@@ -187,7 +198,14 @@ decidirAcao(ouvirVendedor):-(estimulo(ouvirVendedor))->decidirAcao.
  setarPontos(Pontos):-asserta(pontos(Pontos)).
  incrementarPontos(Incremento):-pontos(Pontos), NovosPontos is Incremento +Pontos, setarPontos(NovosPontos).
  decrementarPontos(Decremento):-pontos(Pontos), NovosPontos is Pontos - Decremento, setarPontos(NovosPontos).
- inicializar:-setarCoordenadas(24,19),setarSentido(2), setarPokebolas(25), setarEnergia(1), setarTotalPokemons(0), setarPontos(0), armazenaPoke(pri,0,_,_,_,_).
+ inicializar:-
+             setarCoordenadas(24,19),
+             setarSentido(2),
+             setarPokebolas(25),
+             setarEnergia(1),
+             setarTotalPokemons(0),
+             setarPontos(0),
+             assertz(pokemon(tes,0,tes,tes,tes,tes)).
 %Para mudar as coordenadas.
  armazenaExplorado:-coordenadas(X,Y), asserta(mapaExplorado(X,Y)).
  limpaCoordenadas:-retractall(coordenadas(_,_)).
