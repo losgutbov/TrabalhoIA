@@ -20,8 +20,13 @@ import javax.swing.JPanel;
  *
  * @author Augusto
  */
+
+/*---------------------CLASSE INTERFACE--------------------*/
+/*CLASSE UTILIZADA PARA ESTABELECER OS REQUISITOS DA INTERFACE DO JOGO E EXIBIR INFORMAÇÕES VINDAS DO PROLOG
+  DURANTE O JOGO.*/
 public class Interface extends JFrame{
     
+    //PAINES, COMPONENTES GRAFICOS DA INTERFACE E INFORMAÇÕES QUE SERÃO UTILIZADAS NA INTERFACE.
     private JPanel mapa = new JPanel(), controles = new JPanel(), painelInfo = new JPanel();
     private JPanel painelAtual = new JPanel(), painelLog = new JPanel();;
     private int altura, largura, posiX, posiY, indexPainelAtual, indexPainelLog;
@@ -32,16 +37,16 @@ public class Interface extends JFrame{
     private JLabel pontos = new JLabel(), pokebolas = new JLabel(), carga = new JLabel();
     private RegrasFuncionamento regras;
    
+    //OS CENTROS, LOJAS, TREINADORES E ESTIMULOS POSSUEM IDENTIFICADORES FIXOS.
     final int CENTRO = 152;
     final int LOJA = 153;
     final int TREINADOR = 154;
-
     final int PERFUME = 155;    
     final int PROPAGANDA_BOLAS = 156;
     final int DESAFIO = 157;
     
     //-----MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA----//
-
+    //INFORMAÇÕES IMPORTANTES PARA O JOGO E CHAMA O METODO MOVIMENTAR.
     public void repassarInterface(int coordenadaX, int coordenadaY, int pontos, int pokebolas, int carga, int totalPokemons, int ult_capturado, int sentido){
         movimentar(coordenadaY,coordenadaX);
         this.pontos.setText(Integer.toString(pontos));
@@ -54,16 +59,18 @@ public class Interface extends JFrame{
         //ult_capturado;
         //sentido;
     } 
-    
     //---FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO PROLOG PARA A INTERFACE JAVA--//    
 
     //---------MÉTODO PARA REPASSAR AS INFORMAÇÕES DO JAVA PARA O PROLOG---------//
-    
+    /*A INFORMAÇÃO DE CADA ESTIMULO DADO AO AGENTE É PASSADO PARA O PROLOG E A PARTIR DISSO
+      O AGENTE DEVE DECIDIR QUAL AÇÃO TOMAR, PASSA PARA O PROLOG O COMANDO DECIDIR_AÇÃO.
+      AS INFORMAÇÕES SÃO REFERENTES AOS ELEMENTOS DA CASA NO MAPA EM QUE O AGENTE ESTAR.*/
     public String elementosDaCasa(){
         int i = regras.getPosicaoAtual()[0], j = regras.getPosicaoAtual()[1];
         int ele = regras.getMatrizElementos()[i][j];
         System.out.println("Switch "+ele);
         String comando = "decidirAcao";
+        //CASOS PARA O ELEMENTO IDENTIFICADO NA CASA NO MAPA.
         switch(ele){
             case 0:
                 System.out.println("Nada");
@@ -94,6 +101,10 @@ public class Interface extends JFrame{
                 comando="decidirAcao(gritoTreinador)";
                 break;
             default:
+                /*SEMPRE QUE O AGENTE ESTIVER NA MESMA CASA NA QUAL EXITA UM POKEMON 
+                  O IDENTIFICADOR DO POKEMON DEVE SER RECONHECIDO ENTRE 1 E 150 
+                  E É PASSADO PARA O PROLOG AS INFORMAÇÕES DO POKEMON.
+                  ELE - 1, POIS O ARRY COMEÇA EM ZERO.*/ 
                 if(ele>=1 && ele<=150){
                     System.out.println("Pokemon: "+ele);  
                     comando="decidirAcao("+regras.getListaPokemons().get(ele-1).stringToProlog()+")";
@@ -102,11 +113,9 @@ public class Interface extends JFrame{
         }
         return comando;
     }
-    
     //-----FIM MÉTODO PARA REPASSAR AS INFORMAÇÕES DO JAVA PARA O PROLOG---------//
     
     //-------------------------MÉTODOS GET E SET---------------------------------//
-    
     public int getAltura() {
         return altura;
     }
@@ -162,13 +171,15 @@ public class Interface extends JFrame{
     public void setIndexPainelLog(int indexPainelLog) {
         this.indexPainelLog = indexPainelLog;
     }
-    
     //-------------------------FIM MÉTODOS GET E SET---------------------------------//
     
     //-------------------------MÉTODOS GENÉRICOS-------------------------------------//
+    //MÉDODO QUE ADICIONA COMPONENTES AO FRAME.
     private void adicionar(Component ob){
         this.add(ob);
     }
+    
+    //MÉTODO QUE POSSICIONA O PERSONANGEM NO MAPA
     private void posicionarPersonagem(int i, int j){
         int indexTerrenos = (i*42)+j;
         this.terrenos.get(indexTerrenos).setIcon(tipoAvat[this.getRegras().getMatrizTerreno()[i][j]]);
@@ -181,6 +192,7 @@ public class Interface extends JFrame{
         terrenos.get(indexTerrenos).setIcon(tipoAvat[this.getRegras().getMatrizTerreno()[i][j]]);
     }
     
+    //METODO QUE REALIZA O MOVIMENTO DO PERSONAGEM NO MAPA E SETA SUA POSISÃO
     private boolean movimentar(int sentidoLin, int sentidoCol){
         if((sentidoLin<0) && (sentidoCol<0)){return false;}
         int lin = this.regras.getPosicaoAtual()[0], col = this.regras.getPosicaoAtual()[1];
@@ -190,6 +202,7 @@ public class Interface extends JFrame{
         return true;
     }
     //-----------------------FIM MÉTODOS GENÉRICOS-----------------------------------//
+    
     
     //-------------------------MÉTODO CONSTRUTOR-------------------------------------//
     public Interface(int altura, int largura, RegrasFuncionamento regra){
@@ -202,7 +215,8 @@ public class Interface extends JFrame{
     //-------------------------FIM MÉTODO CONSTRUTOR--------------------------------//
     
     //--------------------MÉTODOS DE DEFINIÇÃO DE ÍCONES----------------------------//
-    private void defineTipos(){ //Carrega as imagens para os icones que serão usados nos labels;
+    //MÉTODO QUE CARREGA AS IMAGENS DOS TERRENOS PARA OS ICONES QUE SERÃO UTILIZADOS NOS LABELS.
+    private void defineTipos(){ 
         tipoter[0] = new ImageIcon(getClass().getResource("imagens/grama.png"));
         tipoter[1] = new ImageIcon(getClass().getResource("imagens/agua.png"));
         tipoter[2] = new ImageIcon(getClass().getResource("imagens/montanha.png"));
@@ -210,7 +224,9 @@ public class Interface extends JFrame{
         tipoter[4] = new ImageIcon(getClass().getResource("imagens/vulcao.png"));
     }
     
-    private void defineAvatar(){ //Carrega as imagens para os icones que serão usados nos labels quando troca o avatar;
+    /*MÉTODO QUE CARERGA AS IMAGENS DO AVATAR QUANDO ESTES ESTÃO ANDANDO PELOS TERRENOS PARA OS ICONES 
+    QUE SERÃO USADOS NOS LABELS.*/
+    private void defineAvatar(){ 
         tipoAvat[0] = new ImageIcon(getClass().getResource("imagens/avatarGrama.png"));
         tipoAvat[1] = new ImageIcon(getClass().getResource("imagens/avatarAgua.png"));
         tipoAvat[2] = new ImageIcon(getClass().getResource("imagens/avatarMontanha.png"));
@@ -218,6 +234,8 @@ public class Interface extends JFrame{
         tipoAvat[4] = new ImageIcon(getClass().getResource("imagens/avatarVulcao.png"));
     }
     
+    /*MÉTODO QUE CARREGA AS IMAGEM DO POKEMON DE ACORDO COM O SEU NUMERO DE IDENTIFICAÇÃO PARA OS ICONES QUE 
+    QUE SERÃO UTILIZADOS NOS LABELS*/
     private ImageIcon definePokemon(int numPok){
         ImageIcon pokemon = new ImageIcon(getClass().getResource("imagens/pokemons/"+numPok+"MS.png"));
         return pokemon;
@@ -225,6 +243,7 @@ public class Interface extends JFrame{
     //--------------------FIM MÉTODOS DE DEFINIÇÃO DE ÍCONES----------------------------//
 
     //--------------------MÉTODOS DE ELEMENTOS GRÁFICOS----------------------------//    
+    //MÉTODO QUE GERA A INTERFACE E CHAMA OS METODOS PARA ADICIONAR INFORMAÇÕES A INTERFACE E INTRODUZ OS POKEMONS.
     public void geraInterface(){
         this.setSize(getLargura(), getAltura());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -240,7 +259,8 @@ public class Interface extends JFrame{
         
     }
     
-    private void adicionarMapa(){//Cria o mapa do jogo e chama o gerador de terrenos
+    //MÉTODO QUE CRIA O MAPA DO JOGO E CHAMA O GERADOR DE TERRENOS
+    private void adicionarMapa(){
         
         mapa.setSize(getLargura()-780, getAltura()-60);
         //mapa.setSize(588, 672);
@@ -251,6 +271,7 @@ public class Interface extends JFrame{
         adicionar(mapa);
     }
     
+    //MÉTODO QUE GERA OS TERRNOS 
     private void geraTerrenos(JPanel painel, int lin, int col){
         setPosiX(0);
         setPosiY(0);
@@ -267,6 +288,7 @@ public class Interface extends JFrame{
         }
     }
     
+    //MEDODO QUE INTRODUZ OS POKEMONS NO MAPA
     public void introduzPokemons(int lin, int col){
         for(int i=0; i<lin; i++){
             for(int j=0; j<col; j++){
@@ -280,6 +302,7 @@ public class Interface extends JFrame{
         }
     }
     
+    //MÉTODO DOS CONTROLES DE MOVIMENTO.
     private void adicionaControles(){
 
         controles.setSize(300, 100);
@@ -329,7 +352,8 @@ public class Interface extends JFrame{
         controles.add(avanca);
     }
     
-    private void adicionarPainelInfo(){//Cria o campo de informações sobre o que ocorre no jogo.
+    //CRIA O PAINEL COM CAMPOS QUE INFORMAM O QUE ACONTEÇA DURANTE O JOGO
+    private void adicionarPainelInfo(){
         JLabel tagPontos = new JLabel("Pontos: ");
         JLabel tagPokebolas = new JLabel("Pokébolas: ");
         JLabel tagCarga = new JLabel("Carga: ");
